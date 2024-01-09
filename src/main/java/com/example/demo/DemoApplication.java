@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
-@CrossOrigin
 public class DemoApplication {
 
 	public String PORT = System.getenv("PORT");
