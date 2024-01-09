@@ -2,6 +2,8 @@ package com.example.demo.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -13,16 +15,28 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfig (){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200", "https://professional-practices-system-k7mn97rom-lu27656348.vercel.app/login")
+                        .allowedMethods(
+                                HttpMethod.GET.name(),
+                                HttpMethod.POST.name(),
+                                HttpMethod.PUT.name(),
+                                HttpMethod.DELETE.name()
+                        )
+                        .allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION);
+            }
+        };
+    }
+}
 
     /*
-    public void addCorsMapping(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*");
-    }
-*/
 
         @Bean
         public CorsFilter corsFilter()
@@ -38,6 +52,8 @@ public class CorsConfig implements WebMvcConfigurer {
 
             return new CorsFilter(source);
         }
+
+     */
 
 
 
