@@ -30,11 +30,18 @@ public class CorsConfig implements WebMvcConfigurer {
         {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
             corsConfiguration.setAllowCredentials(true);
-            corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
+            corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200","https://professional-practices-system-k7mn97rom-lu27656348.vercel.app"));
             corsConfiguration.setAllowedMethods(Arrays.asList("GET",
 
                     "POST", "PUT", "DELETE"));
             corsConfiguration.setAllowedHeaders(List.of("*"));
+            if (corsConfiguration.getAllowedOrigins().contains("*")) {
+                // Only add CORS headers if allowed origins are not restricted
+                corsConfiguration.addAllowedOrigin("*");
+                corsConfiguration.addAllowedHeader("Access-Control-Allow-Origin");
+                corsConfiguration.addAllowedHeader("Access-Control-Allow-Methods");
+                corsConfiguration.addAllowedHeader("Access-Control-Allow-Headers");
+            }
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", corsConfiguration);
 
