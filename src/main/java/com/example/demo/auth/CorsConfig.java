@@ -23,7 +23,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "https://professional-practices-system-k7mn97rom-lu27656348.vercel.app/login")
+                        .allowedOrigins("http://localhost:4200", "https://professional-practices-system-k7mn97rom-lu27656348.vercel.app/login","https://professional-practices-system-k7mn97rom-lu27656348.vercel.app")
                         .allowedMethods(
                                 HttpMethod.GET.name(),
                                 HttpMethod.POST.name(),
