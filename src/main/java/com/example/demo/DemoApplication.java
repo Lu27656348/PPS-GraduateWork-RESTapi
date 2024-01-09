@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class DemoApplication {
 
 	public String PORT = System.getenv("PORT");
+	public String DATABASE_URL = System.getenv("DATABASE_URL");
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
