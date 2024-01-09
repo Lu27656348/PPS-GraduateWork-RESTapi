@@ -4,11 +4,13 @@ import com.example.demo.interfaces.MessageResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
+@CrossOrigin(origins = "*") // Allow all origins for this example
 public class DemoApplication {
 
 	public String PORT = System.getenv("PORT");
