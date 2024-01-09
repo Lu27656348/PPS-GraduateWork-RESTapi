@@ -52,6 +52,7 @@ public class UserController {
         return userService.getUserRoles(dni);
     }
 
+    @CrossOrigin( origins = "https://professional-practices-system.vercel.app")
     @PostMapping("validate")
     public Boolean validateUserAndPassword(@RequestBody LoginRequest loginRequest){
         return userService.validateUserAndPassword(loginRequest.getUserDNI(),loginRequest.getPassword());
