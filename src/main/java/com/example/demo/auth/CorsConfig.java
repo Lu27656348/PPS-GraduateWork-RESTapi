@@ -20,7 +20,7 @@ public class CorsConfig implements WebMvcConfigurer{
     public void addCorsMappings(CorsRegistry registry)
     {
         registry.addMapping("/**")  // Apply CORS to all paths
-                .allowedOrigins("https://professional-practices-system.vercel.app")
+                .allowedOrigins("https://professional-practices-system.vercel.app","https://professional-practices-system.vercel.app/login")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
