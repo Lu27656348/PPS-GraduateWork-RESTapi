@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-    @CrossOrigin
     @GetMapping({"/","/home"})
     public ResponseEntity<MessageResponse> welcomeMessage(){
         return ResponseEntity.ok(new MessageResponse("Welcome to Luis Somoza PPS REST API In Java, have a good time <3"));
