@@ -15,25 +15,18 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-public class CorsConfig {
-
-    @Bean
-    public WebMvcConfigurer corsConfig (){
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "https://professional-practices-system-k7mn97rom-lu27656348.vercel.app/login","https://professional-practices-system-k7mn97rom-lu27656348.vercel.app","https://professional-practices-system.vercel.app")
-                        .allowedMethods(
-                                HttpMethod.GET.name(),
-                                HttpMethod.POST.name(),
-                                HttpMethod.PUT.name(),
-                                HttpMethod.DELETE.name()
-                        )
-                        .allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION);
-            }
-        };
+public class CorsConfig implements WebMvcConfigurer{
+    @Override
+    public void addCorsMappings(CorsRegistry registry)
+    {
+        registry.addMapping("/**")  // Apply CORS to all paths
+                .allowedOrigins("https://professional-practices-system.vercel.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
+
+
 }
 
     /*
@@ -52,9 +45,4 @@ public class CorsConfig {
 
             return new CorsFilter(source);
         }
-
-     */
-
-
-
-}
+    */
