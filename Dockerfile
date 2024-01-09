@@ -1,3 +1,11 @@
-FROM openjdk:21
-ADD ./docker-spring-boot.jar docker-spring-boot.jar
-ENTRYPOINT ["java", "-jar", "docker-spring-boot.jar"]
+FROM maven:3.9.5-openjdk-21-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+# Package stage
+
+FROM openjdk:21-slim
+COPY --from=build /home/app/target/getyourway-0.0.1-SNAPSHOT.jar /usr/local/lib/demo.jar
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
