@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     @GetMapping
     public ResponseEntity<MessageResponse> welcomeMessage(){
-        return ResponseEntity.ok(new MessageResponse("Welcome to Luis Somoza PPS REST API In Java"));
+        return ResponseEntity.ok(new MessageResponse("Welcome to Luis Somoza PPS REST API In Java, have a good time <3"));
     }
 }
