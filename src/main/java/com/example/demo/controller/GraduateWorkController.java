@@ -90,7 +90,7 @@ public class GraduateWorkController {
         return graduateWorkService.getReviewersPending();
     }
 
-    @GetMapping("/council/pending/{id}")
+    @GetMapping("/council/pending")
     public Iterable<ProposalInformationProjection> getCouncilPending(){
         return graduateWorkService.getCouncilPending();
     }
