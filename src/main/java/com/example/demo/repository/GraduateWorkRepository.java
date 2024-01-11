@@ -107,7 +107,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
 
     @Query(
             value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, sgw.studentDNI\n" +
-                    "FROM GraduateWork Gw, Professors Pr,student_graduatework Sgw\n" +
+                    "FROM GraduateWork Gw, student_graduatework Sgw\n" +
                     "WHERE Gw.graduateworkacademictutor = :professorDNI\n" +
                     "AND Gw.graduateworkid = sgw.graduateworkid\n" +
                     "AND Gw.graduateworkestatuscode = 50;",

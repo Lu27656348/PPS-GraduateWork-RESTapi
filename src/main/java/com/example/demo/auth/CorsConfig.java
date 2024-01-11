@@ -14,7 +14,11 @@ public class CorsConfig implements WebMvcConfigurer{
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedOrigins("https://spp-angular-frontend.web.app")  // Explicitly allow your frontend's origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 
 
