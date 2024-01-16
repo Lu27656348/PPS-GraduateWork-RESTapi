@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
 
+import com.example.demo.interfaces.projections.GetGraduateWorkReviewerProjection;
 import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
 import com.example.demo.interfaces.requests.*;
 import com.example.demo.service.GraduateWorkService;
@@ -175,6 +176,11 @@ public class GraduateWorkController {
     @PostMapping("list/reviewer/evaluation/criteria")
     public Iterable<GetReviewerEvaluationCriteriaProjection> getReviewerEvaluationCriteria (@RequestBody GetReviewerEvaluationCriteria getReviewerEvaluationCriteria){
         return graduateWorkService.getReviewerEvaluationCriteria(getReviewerEvaluationCriteria.getProfessorDNI(),getReviewerEvaluationCriteria.getGraduateWorkId());
+    }
+
+    @PostMapping("/reviewer")
+    public GetGraduateWorkReviewerProjection getGraduateWorkReviewer(@RequestBody GetGraduateWorkReviewer getGraduateWorkReviewer){
+        return graduateWorkService.getGraduateWorkReviewer(getGraduateWorkReviewer.getGraduateWorkId());
     }
     /**/
     @PostMapping("/reviewer/evaluation/approve")

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
+import com.example.demo.interfaces.projections.GetGraduateWorkReviewerProjection;
 import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
 import com.example.demo.interfaces.requests.CreateApproveCoordinatorRequest;
 import com.example.demo.interfaces.requests.CreateCoordinatorRequest;
@@ -193,6 +194,9 @@ public class GraduateWorkService{
         return graduateWorkRepository.getReviewerEvaluationCriteria(professorDNI,graduateWorkId);
     }
 
+    public GetGraduateWorkReviewerProjection getGraduateWorkReviewer (String graduateWorkId){
+        return graduateWorkRepository.getGraduateWorkReviewer(graduateWorkId);
+    }
     public Boolean approveReviewerEvaluation (String professorDNI, String graduateWorkId, String comments){
         return graduateWorkRepository.approveReviewerEvaluation(professorDNI,graduateWorkId,comments);
     }

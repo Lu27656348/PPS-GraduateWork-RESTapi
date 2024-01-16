@@ -2,7 +2,10 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
+import com.example.demo.interfaces.projections.GetGraduateWorkReviewerProjection;
 import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
+import com.example.demo.interfaces.requests.GetGraduateWorkReviewer;
+import com.example.demo.interfaces.responses.GetGraduateWorkReviewerResponse;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -221,6 +224,13 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     )
     public Boolean createReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId);
 
+    @Query(
+            value = "SELECT Re.professorDNI\n" +
+                    "FROM ReviewerEvaluation AS Re\n" +
+                    "WHERE graduateWorkId = :graduateWorkId",
+            nativeQuery = true
+    )
+    public GetGraduateWorkReviewerProjection getGraduateWorkReviewer(@Param("graduateWorkId") String graduateWorkId);
     @Query(
             value = "SELECT asignarCriterioAEvaluacionRevisor(:professorDNI,:graduateWorkId,:reviewerCriteriaId)",
             nativeQuery = true
