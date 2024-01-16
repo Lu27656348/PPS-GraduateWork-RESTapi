@@ -2,6 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
+import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
+import com.example.demo.interfaces.requests.CreateApproveCoordinatorRequest;
+import com.example.demo.interfaces.requests.CreateCoordinatorRequest;
+import com.example.demo.interfaces.requests.GetReviewerEvaluationCriteria;
 import com.example.demo.repository.GraduateWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +46,8 @@ public class GraduateWorkService{
             graduateWorkSearch.setGraduateWorkCommittee(newGraduateWork.getGraduateWorkCommittee());
             graduateWorkSearch.setGraduateWorkType(newGraduateWork.getGraduateWorkType());
             graduateWorkSearch.setGraduateWorkTitle(newGraduateWork.getGraduateWorkTitle());
-            graduateWorkSearch.setGraduateWorkEstatusCode(newGraduateWork.getGraduateWorkEstatusCode());
+            graduateWorkSearch.setGraduateWorkStatusCode(newGraduateWork.getGraduateWorkStatusCode());
             graduateWorkSearch.setGraduateWorkCoordinator(newGraduateWork.getGraduateWorkCoordinator());
-            graduateWorkSearch.setGraduateWorkDocumentsURL(newGraduateWork.getGraduateWorkCoordinator());
             return this.graduateWorkRepository.save(graduateWorkSearch);
         }
         return null;
@@ -59,7 +62,7 @@ public class GraduateWorkService{
     }
 
     public CreateGraduateWorkRequestProjection createGraduateWorkStudent(CreateGraduateWorkRequest createGraduateWorkRequest){
-        return graduateWorkRepository.createGraduateWorkStudent(createGraduateWorkRequest.getStudentDNI(),createGraduateWorkRequest.getGraduateWorkType(),createGraduateWorkRequest.getGraduateWorkTitle(),createGraduateWorkRequest.getGraduateWorkCoordinator(),createGraduateWorkRequest.getGraduateWorkAcademicTutor(),createGraduateWorkRequest.getGraduateWorkInCompanyTutor(),createGraduateWorkRequest.getGraduateWorkEnterprise());
+        return graduateWorkRepository.createGraduateWorkStudent(createGraduateWorkRequest.getStudentDNI(),createGraduateWorkRequest.getGraduateWorkType(),createGraduateWorkRequest.getGraduateWorkTitle(),createGraduateWorkRequest.getGraduateWorkCoordinator(),createGraduateWorkRequest.getGraduateWorkAcademicTutor(),createGraduateWorkRequest.getGraduateWorkInCompanyTutor(),createGraduateWorkRequest.getGraduateWorkEnterprise(),createGraduateWorkRequest.getStudentDNI2());
     }
 
     public Iterable<ProfessorResponseProjection> getInCompanyTutors (){
@@ -73,7 +76,7 @@ public class GraduateWorkService{
     public GraduateWork changeStatus(ChangeEstatusRequest changeEstatusRequest){
         GraduateWork graduateWorkSearch = graduateWorkRepository.findById(changeEstatusRequest.getGraduateWorkId()).orElse(null);
         if( graduateWorkSearch != null ){
-            graduateWorkSearch.setGraduateWorkEstatusCode(changeEstatusRequest.getEstatusCode());
+            graduateWorkSearch.setGraduateWorkStatusCode(changeEstatusRequest.getEstatusCode());
             return graduateWorkRepository.save(graduateWorkSearch);
         }
         return null;
@@ -157,5 +160,51 @@ public class GraduateWorkService{
     public Boolean setDefenseNote(SetDefenseNoteRequest setDefenseNoteRequest){
         return graduateWorkRepository.setDefenseNote(setDefenseNoteRequest.getGraduateWorkId(),setDefenseNoteRequest.getProfessorDNI(),setDefenseNoteRequest.getNote());
     }
+
+    public Boolean approveCoordinatorEvaluation(CreateApproveCoordinatorRequest createApproveCoordinatorRequest){
+        return graduateWorkRepository.approveCoordinatorEvaluation(createApproveCoordinatorRequest.getGraduateWorkId(),createApproveCoordinatorRequest.getProfessorDNI());
+    }
+
+    public Boolean createCoordinatorEvaluation(CreateCoordinatorRequest createCoordinatorRequest){
+        return graduateWorkRepository.createCoordinatorEvaluation(createCoordinatorRequest.getGraduateWorkId(),createCoordinatorRequest.getProfessorDNI(),createCoordinatorRequest.getRevisionNumber(),createCoordinatorRequest.getRevisionResult(),createCoordinatorRequest.getCoordinatorComments());
+    }
+
+    public Boolean generateCoordinatorEvaluation(CreateCoordinatorRequest createCoordinatorRequest){
+        return graduateWorkRepository.generateCoordinatorEvaluation(createCoordinatorRequest.getGraduateWorkId(),createCoordinatorRequest.getProfessorDNI(),createCoordinatorRequest.getRevisionResult(),createCoordinatorRequest.getCoordinatorComments());
+    }
+
+    public Boolean getCoordinatorEvaluationStatus(String graduateWorkId){
+        return graduateWorkRepository.getCoordinatorEvaluationStatus(graduateWorkId);
+    }
+
+    public Integer aprobarRevisionCoordinador(String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.aprobarRevisionCoordinador(professorDNI,graduateWorkId);
+    }
+
+    public Boolean createReviewerEvaluation(String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.createReviewerEvaluation(professorDNI,graduateWorkId);
+    }
+
+    public Boolean addCriteriaToReviewerEvaluation(String professorDNI, String graduateWorkId, Integer reviewerCriteriaId){
+        return graduateWorkRepository.addCriteriaToReviewerEvaluation(professorDNI,graduateWorkId,reviewerCriteriaId);
+    }
+
+    public Iterable<GetReviewerEvaluationCriteriaProjection> getReviewerEvaluationCriteria(String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.getReviewerEvaluationCriteria(professorDNI,graduateWorkId);
+    }
+
+    public Boolean approveReviewerEvaluation (String professorDNI, String graduateWorkId, String comments){
+        return graduateWorkRepository.approveReviewerEvaluation(professorDNI,graduateWorkId,comments);
+    }
+    public Boolean approveReviewerEvaluationCriteria (String professorDNI, String graduateWorkId,Integer reviewerCriteriaId){
+        return graduateWorkRepository.approveReviewerEvaluationCriteria(professorDNI,graduateWorkId,reviewerCriteriaId);
+    }
+    public Boolean reproveReviewerEvaluation (String professorDNI, String graduateWorkId, String comments){
+        return graduateWorkRepository.reproveReviewerEvaluation(professorDNI,graduateWorkId,comments);
+    }
+    public Boolean reproveReviewerEvaluationCriteria (String professorDNI, String graduateWorkId, Integer reviewerCriteriaId){
+        return graduateWorkRepository.reproveReviewerEvaluationCriteria(professorDNI,graduateWorkId,reviewerCriteriaId);
+    }
+
 
 }

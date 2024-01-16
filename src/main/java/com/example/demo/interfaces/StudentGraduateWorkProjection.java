@@ -10,7 +10,7 @@ public interface StudentGraduateWorkProjection {
     @Column(name = "graduateworktitle")
     String getGraduateworktitle();
 
-    @Column(name = "graduateworkestatuscode")
-    String getGraduateworkestatuscode();
+    @Column(name = "graduateworkstatuscode")
+    String getGraduateworkstatuscode();
 
 }

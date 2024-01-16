@@ -3,9 +3,11 @@ package com.example.demo.service;
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.entity.Professor;
 import com.example.demo.entity.Student;
+import com.example.demo.entity.User;
 import com.example.demo.interfaces.ProfessorProjection;
 import com.example.demo.interfaces.StudentGraduateWork;
 import com.example.demo.interfaces.StudentGraduateWorkProjection;
+import com.example.demo.interfaces.UserProjection;
 import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,5 +55,13 @@ public class StudentService {
 
     public ProfessorProjection getStudentCoordinator(String studentDNI){
         return studentRepository.getStudentCoordinator(studentDNI);
+    }
+
+    public Iterable<UserProjection> listStudentsData() {
+        return studentRepository.listStudentsData();
+    }
+
+    public Iterable<UserProjection> listStudentsDataExceptSelected(String studentDNI) {
+        return studentRepository.listStudentsDataExceptSelected(studentDNI);
     }
 }

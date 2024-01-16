@@ -27,8 +27,8 @@ public class GraduateWork {
     @Column( name = "graduateworktitle")
     private String graduateWorkTitle;
 
-    @Column( name = "graduateworkestatuscode")
-    private Integer graduateWorkEstatusCode;
+    @Column( name = "graduateworkstatuscode")
+    private Integer graduateWorkStatusCode;
 
     @Column( name = "graduateworkcoordinator")
     private String graduateWorkCoordinator;
@@ -60,7 +60,5 @@ public class GraduateWork {
     @Column( name = "graduateworkdefensedate")
     private Date graduateWorkDefenseDate;
 
-    @Column( name = "graduateworkdocumentsurl")
-    private String graduateWorkDocumentsURL;
 
 }

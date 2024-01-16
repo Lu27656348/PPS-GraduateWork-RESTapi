@@ -10,4 +10,6 @@ public interface CreateGraduateWorkRequestProjection {
     String getGraduateWorkInCompanyTutor();
     String getGraduateWorkEnterprise();
 
+    String getStudentDNI2();
+
 }

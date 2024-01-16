@@ -22,8 +22,8 @@ public class User {
     private String userFirstName;
     @Column(name = "userlastname")
     private String userLastName;
-    @Column(name = "useremailucab")
-    private String userEmailUcab;
+    @Column(name = "useremail")
+    private String userEmail;
     @Column(name = "useremailalt")
     private String userEmailAlt;
     @Column(name = "userphone")
@@ -34,7 +34,7 @@ public class User {
         this.userPassword = userPassword;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
-        this.userEmailUcab = userEmailUcab;
+        this.userEmail = userEmailUcab;
     }
 
 }

@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.entity.Professor;
 import com.example.demo.entity.Student;
+import com.example.demo.entity.User;
 import com.example.demo.interfaces.ProfessorProjection;
 import com.example.demo.interfaces.StudentGraduateWork;
 import com.example.demo.interfaces.StudentGraduateWorkProjection;
+import com.example.demo.interfaces.UserProjection;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,15 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping("/list/data")
+    public Iterable<UserProjection> listStudentsData () {
+        return studentService.listStudentsData();
+    }
+
+    @GetMapping("/list/data/except/{id}")
+    public Iterable<UserProjection> listStudentsDataExceptSelected (@PathVariable String id) {
+        return studentService.listStudentsDataExceptSelected(id);
+    }
     @GetMapping("{id}")
     public Student getStudentById (@PathVariable String id){
         System.out.println("getProfessorById");

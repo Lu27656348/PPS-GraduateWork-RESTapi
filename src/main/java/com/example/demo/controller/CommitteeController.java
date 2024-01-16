@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Committee;
 import com.example.demo.service.CommitteeService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,6 +19,11 @@ public class CommitteeController {
     @GetMapping
     public Iterable<Committee> getAllCommittees(){
         return committeeService.getAllCommittees();
+    }
+
+    @PostMapping
+    public Committee createCommittee(@RequestBody Committee committee){
+        return committeeService.createCommittee(committee);
     }
 
 }

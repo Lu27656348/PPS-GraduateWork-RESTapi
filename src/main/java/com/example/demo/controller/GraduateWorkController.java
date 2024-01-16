@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
 
+import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
+import com.example.demo.interfaces.requests.*;
 import com.example.demo.service.GraduateWorkService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -134,6 +136,67 @@ public class GraduateWorkController {
     public Iterable<ProposalInformationProjection> getDefensePending(){
         return graduateWorkService.getDefensePending();
     }
+
+    @PostMapping("coordinator/proposal/evaluation/approve")
+    public ResponseEntity<Boolean> approveCoordinatorEvaluation(@RequestBody CreateApproveCoordinatorRequest createApproveCoordinatorRequest){
+        return ResponseEntity.ok(graduateWorkService.approveCoordinatorEvaluation(createApproveCoordinatorRequest));
+    }
+
+    @PostMapping("coordinator/proposal/evaluation")
+    public ResponseEntity<Boolean> createCoordinatorEvaluation(@RequestBody CreateCoordinatorRequest createCoordinatorRequest){
+        return ResponseEntity.ok(graduateWorkService.createCoordinatorEvaluation(createCoordinatorRequest));
+    }
+
+    @PostMapping("coordinator/proposal/evaluation/create")
+    public ResponseEntity<Boolean> generateCoordinatorEvaluation(@RequestBody CreateCoordinatorRequest createCoordinatorRequest){
+        return ResponseEntity.ok(graduateWorkService.generateCoordinatorEvaluation(createCoordinatorRequest));
+    }
+
+    @GetMapping("coordinator/proposal/evaluation/status/{id}")
+    public ResponseEntity<Boolean> getCoordinatorEvaluationStatus(@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getCoordinatorEvaluationStatus(id));
+    }
+
+    @PostMapping("coordinator/proposal/evaluation/status/approve")
+    public ResponseEntity<Integer> aprobarRevisionCoordinador(@RequestBody ApproveCoordinatorEvaluationRequest approveCoordinatorEvaluationRequest){
+        return ResponseEntity.ok(graduateWorkService.aprobarRevisionCoordinador(approveCoordinatorEvaluationRequest.getProfessorDNI(),approveCoordinatorEvaluationRequest.getGraduateWorkId()));
+    }
+
+    @PostMapping("create/reviewer/evaluation")
+    public ResponseEntity<Boolean> createReviewerEvaluation (@RequestBody CreateReviewerEvaluationRequest createReviewerEvaluationRequest){
+        return ResponseEntity.ok(graduateWorkService.createReviewerEvaluation(createReviewerEvaluationRequest.getProfessorDNI(),createReviewerEvaluationRequest.getGraduateWorkId()));
+    }
+
+    @PostMapping("create/reviewer/evaluation/criteria")
+    public ResponseEntity<Boolean> addCriteriaToReviewerEvaluation (@RequestBody CreateReviewerEvaluationCriteriaRequest createReviewerEvaluationCriteriaRequest){
+        return ResponseEntity.ok(graduateWorkService.addCriteriaToReviewerEvaluation(createReviewerEvaluationCriteriaRequest.getProfessorDNI(),createReviewerEvaluationCriteriaRequest.getGraduateWorkId(),createReviewerEvaluationCriteriaRequest.getReviewerCriteriaId()));
+    }
+
+    @PostMapping("list/reviewer/evaluation/criteria")
+    public Iterable<GetReviewerEvaluationCriteriaProjection> getReviewerEvaluationCriteria (@RequestBody GetReviewerEvaluationCriteria getReviewerEvaluationCriteria){
+        return graduateWorkService.getReviewerEvaluationCriteria(getReviewerEvaluationCriteria.getProfessorDNI(),getReviewerEvaluationCriteria.getGraduateWorkId());
+    }
+    /**/
+    @PostMapping("/reviewer/evaluation/approve")
+    public ResponseEntity<Boolean> approveReviewerEvaluation (@RequestBody ApproveCoordinatorEvaluationRequest approveCoordinatorEvaluationRequest){
+        return ResponseEntity.ok(graduateWorkService.approveReviewerEvaluation(approveCoordinatorEvaluationRequest.getProfessorDNI(),approveCoordinatorEvaluationRequest.getGraduateWorkId(),approveCoordinatorEvaluationRequest.getComments()));
+    }
+
+    @PostMapping("/reviewer/evaluation/reprove")
+    public ResponseEntity<Boolean> reproveReviewerEvaluation (@RequestBody ApproveCoordinatorEvaluationRequest approveCoordinatorEvaluationRequest){
+        return ResponseEntity.ok(graduateWorkService.reproveReviewerEvaluation(approveCoordinatorEvaluationRequest.getProfessorDNI(),approveCoordinatorEvaluationRequest.getGraduateWorkId(),approveCoordinatorEvaluationRequest.getComments()));
+    }
+
+    @PostMapping("/reviewer/evaluation/criteria/approve")
+    public ResponseEntity<Boolean> approveReviewerEvaluationCriteria (@RequestBody SetReviewerEvaluationCriteria setReviewerEvaluationCriteria ){
+        return ResponseEntity.ok(graduateWorkService.approveReviewerEvaluationCriteria(setReviewerEvaluationCriteria.getProfessorDNI(),setReviewerEvaluationCriteria.getGraduateWorkId(),setReviewerEvaluationCriteria.getReviewerCriteriaId()));
+    }
+
+    @PostMapping("/reviewer/evaluation/criteria/reprove")
+    public ResponseEntity<Boolean> reproveReviewerEvaluationCriteria (@RequestBody SetReviewerEvaluationCriteria setReviewerEvaluationCriteria){
+        return ResponseEntity.ok(graduateWorkService.reproveReviewerEvaluationCriteria(setReviewerEvaluationCriteria.getProfessorDNI(),setReviewerEvaluationCriteria.getGraduateWorkId(),setReviewerEvaluationCriteria.getReviewerCriteriaId()));
+    }
+
 }
 
 

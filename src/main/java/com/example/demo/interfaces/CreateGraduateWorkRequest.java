@@ -13,4 +13,5 @@ public class CreateGraduateWorkRequest {
     private Integer graduateWorkEnterprise;
     private String graduateWorkCoordinator;
     private String graduateWorkInCompanyTutor;
+    private String studentDNI2;
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "graduateworkcommittees")
+@Table(name = "committees")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,9 +20,10 @@ import java.util.Date;
 public class Committee {
 
     @Id
-    private String graduateworkcommittee;
+    @Column(name = "committeeid")
+    private String committeeId;
 
-    @Column(name = "graduateworkcommitteedate")
-    private Date graduateworkcommitteedate;
+    @Column(name = "committeedate")
+    private Date committeeDate;
 
 }

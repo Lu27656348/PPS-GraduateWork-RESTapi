@@ -16,4 +16,8 @@ public class CriteriaService {
     public Iterable<Criteria> getAllCriteria(){
         return criteriaRepository.findAll();
     }
+
+    public Criteria createCriteria(Criteria criteria) {
+        return criteriaRepository.save(criteria);
+    }
 }

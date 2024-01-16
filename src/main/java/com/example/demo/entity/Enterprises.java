@@ -22,6 +22,6 @@ public class Enterprises {
     @Column(name = "enterprisename")
     private String enterpriseName;
 
-    @Column( name = "enterpriseaddress")
-    private String enterpriseAddress;
+    @Column( name = "enterprisedescription")
+    private String enterpriseDescription;
 }

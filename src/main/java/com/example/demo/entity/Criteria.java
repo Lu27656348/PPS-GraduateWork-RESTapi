@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "criteria")
+@Table(name = "reviewercriteria")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,8 +17,10 @@ import java.util.Date;
 public class Criteria {
 
     @Id
-    private Integer criteriaid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use database-assigned IDs
+    @Column(name = "reviewercriteriaid")
+    private Integer reviewerCriteriaId;
 
-    @Column(name = "criteriadescription")
-    private String criteriadescription;
+    @Column(name = "reviewercriteriadescription")
+    private String reviewerCriteriaDescription;
 }

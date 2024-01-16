@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.GraduateWork;
 import com.example.demo.interfaces.*;
+import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +21,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     Boolean validateStudentGraduateWorks(@Param("userDNI") String userDNI);
 
     @Query(
-            value = "SELECT crearTrabajoDeGradoEstudiante(:studentDNI,:graduateWorkType,:graduateWorkTitle,:graduateWorkCoordinator,:graduateWorkAcademicTutor,:graduateWorkInCompanyTutor,:graduateWorkEnterprise)",
+            value = "SELECT crearTrabajoDeGradoEstudiante(:studentDNI,:graduateWorkType,:graduateWorkTitle,:graduateWorkCoordinator,:graduateWorkAcademicTutor,:graduateWorkInCompanyTutor,:graduateWorkEnterprise,:studentDNI2)",
             nativeQuery = true
     )
     CreateGraduateWorkRequestProjection createGraduateWorkStudent(
@@ -30,7 +31,8 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             @Param("graduateWorkCoordinator") String graduateWorkCoordinator,
             @Param("graduateWorkAcademicTutor") String graduateWorkAcademicTutor,
             @Param("graduateWorkInCompanyTutor") String graduateWorkInCompanyTutor,
-            @Param("graduateWorkEnterprise") Integer graduateWorkEnterprise
+            @Param("graduateWorkEnterprise") Integer graduateWorkEnterprise,
+            @Param("studentDNI2") String studentDNI2
     );
 
     @Query(
@@ -46,11 +48,11 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     Iterable<ProfessorResponseProjection> getInCompanyTutors();
 
     @Query(
-            value = "SELECT sgw.graduateworkid,Gw.graduateworktitle,Sgw.studentDNI\n" +
-                    "FROM GraduateWork Gw, student_graduatework Sgw\n" +
+            value = "SELECT sgw.graduateworkid,Gw.graduateworktitle,St.statuscode,St.statuscodedescription,Sgw.studentDNI\n" +
+                    "FROM GraduateWork Gw, student_graduatework Sgw, StatusCodes St\n" +
                     "WHERE Gw.graduateworkid = sgw.graduateworkid\n" +
-                    "AND Gw.graduateworkestatuscode = 10\n" +
-                    "OR  Gw.graduateworkestatuscode = 11",
+                    "AND Gw.graduateworkstatuscode IN (10,11,12)\n" +
+                    "AND St.statuscode = Gw.graduateworkstatuscode",
             nativeQuery = true
     )
     Iterable<ProposalInformationProjection> getProposals();
@@ -59,28 +61,30 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             value = "SELECT Gw.*\n" +
                     "FROM GraduateWork Gw, student_graduatework sgw\n" +
                     "WHERE Gw.graduateworkid = sgw.graduateworkid\n" +
-                    "AND Gw.graduateworkestatuscode NOT IN (400,401)\n" +
+                    "AND Gw.graduateworkstatuscode NOT IN (400,401)\n" +
                     "AND sgw.studentDNI = :studentDNI",
             nativeQuery = true
     )
     GraduateWork getStudentProposal(@Param("studentDNI") String studentDNI);
 
     @Query(
-            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, sgw.studentDNI\n" +
-                    "FROM GraduateWork Gw,student_graduatework Sgw\n" +
-                    "WHERE Gw.graduateworkestatuscode NOT IN (400,401)\n" +
-                    "AND Gw.graduateworkestatuscode = 20\n" +
-                    "AND Gw.graduateworkid = sgw.graduateworkid",
+            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, St.statuscode,St.statuscodedescription,sgw.studentDNI\n" +
+                    "FROM GraduateWork Gw,student_graduatework Sgw,StatusCodes St\n" +
+                    "WHERE Gw.graduateworkstatuscode NOT IN (400,401)\n" +
+                    "AND Gw.graduateworkstatuscode = 20\n" +
+                    "AND Gw.graduateworkid = sgw.graduateworkid\n" +
+                    "AND St.statuscode = Gw.graduateworkstatuscode",
             nativeQuery = true
     )
     Iterable<ProposalInformationProjection> getReviewersProposals();
 
     @Query(
-            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, sgw.studentDNI\n" +
-                    "FROM GraduateWork Gw,student_graduatework Sgw\n" +
-                    "WHERE Gw.graduateworkestatuscode NOT IN (400,401)\n" +
-                    "AND Gw.graduateworkestatuscode = 30\n" +
-                    "AND Gw.graduateworkid = sgw.graduateworkid",
+            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, St.statuscode,St.statuscodedescription,sgw.studentDNI\n" +
+                    "FROM GraduateWork Gw,student_graduatework Sgw,StatusCodes St\n" +
+                    "WHERE Gw.graduateworkstatuscode NOT IN (400,401)\n" +
+                    "AND Gw.graduateworkstatuscode = 30\n" +
+                    "AND Gw.graduateworkid = sgw.graduateworkid\n"+
+                    "AND St.statuscode = Gw.graduateworkstatuscode",
             nativeQuery = true
     )
     Iterable<ProposalInformationProjection> getReviewersPending();
@@ -88,8 +92,8 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     @Query(
             value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, sgw.studentDNI\n" +
                     "FROM GraduateWork Gw,student_graduatework Sgw\n" +
-                    "WHERE Gw.graduateworkestatuscode NOT IN (400,401)\n" +
-                    "AND Gw.graduateworkestatuscode = 70\n" +
+                    "WHERE Gw.graduateworkstatuscode NOT IN (400,401)\n" +
+                    "AND Gw.graduateworkstatuscode = 70\n" +
                     "AND Gw.graduateworkid = sgw.graduateworkid",
             nativeQuery = true
     )
@@ -98,8 +102,8 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     @Query(
             value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, sgw.studentDNI\n" +
                     "FROM GraduateWork Gw,student_graduatework Sgw\n" +
-                    "WHERE Gw.graduateworkestatuscode NOT IN (400,401)\n" +
-                    "AND Gw.graduateworkestatuscode = 40\n" +
+                    "WHERE Gw.graduateworkstatuscode NOT IN (400,401)\n" +
+                    "AND Gw.graduateworkstatuscode = 40\n" +
                     "AND Gw.graduateworkid = sgw.graduateworkid",
             nativeQuery = true
     )
@@ -110,7 +114,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
                     "FROM GraduateWork Gw, student_graduatework Sgw\n" +
                     "WHERE Gw.graduateworkacademictutor = :professorDNI\n" +
                     "AND Gw.graduateworkid = sgw.graduateworkid\n" +
-                    "AND Gw.graduateworkestatuscode = 50;",
+                    "AND Gw.graduateworkstatuscode = 50;",
             nativeQuery = true
     )
     Iterable<ProposalInformationProjection> getAcademicTutorGraduateWorks(@Param("professorDNI") String professorDNI );
@@ -138,9 +142,9 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             value = "SELECT Gw.GraduateWorkId, Gw.GraduateWorkTitle, Sgw.studentDNI\n" +
                     "FROM GraduateWork Gw, student_graduatework Sgw\n" +
                     "WHERE Gw.finalSubmittionDate IS NOT NULL\n" +
-                    "AND Gw.graduateworkestatuscode NOT IN(400,401,100)\n" +
+                    "AND Gw.graduateworkstatuscode NOT IN(400,401,100)\n" +
                     "AND Sgw.GraduateWorkId = Gw.GraduateWorkId \n" +
-                    "AND Gw.graduateworkestatuscode = 60",
+                    "AND Gw.graduateworkstatuscode = 60",
             nativeQuery = true
     )
     public Iterable<ProposalInformationProjection> getJuryPending();
@@ -148,9 +152,9 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     @Query(
             value = "SELECT Gw.GraduateWorkId, Gw.GraduateWorkTitle, Sgw.studentDNI\n" +
                     "FROM GraduateWork Gw, student_graduatework Sgw\n" +
-                    "WHERE Gw.graduateworkestatuscode NOT IN(400,401,100)\n" +
+                    "WHERE Gw.graduateworkstatuscode NOT IN(400,401,100)\n" +
                     "AND Sgw.GraduateWorkId = Gw.GraduateWorkId \n" +
-                    "AND Gw.graduateworkestatuscode = 90",
+                    "AND Gw.graduateworkstatuscode = 90",
             nativeQuery = true
     )
     public Iterable<ProposalInformationProjection> getCulminationPending();
@@ -161,7 +165,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
                     "WHERE Gw.graduateworkid = J.graduateworkid\n" +
                     "AND j.professordni = :professorDNI\n" +
                     "AND J.juryType = 1 \n" +
-                    "AND Gw.graduateworkestatuscode = 80 \n" +
+                    "AND Gw.graduateworkstatuscode = 80 \n" +
                     "AND Sgw.graduateworkid = Gw.graduateworkid",
             nativeQuery = true
     )
@@ -178,4 +182,88 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     )
 
     public Boolean setDefenseNote(@Param("graduateWorkId") String graduateWorkId, @Param("professorDNI") String professorDNI, @Param("note") Integer note);
- }
+
+    @Query(
+            value = "SELECT approveCoordinatorEvaluation(:professorDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+
+    public Boolean approveCoordinatorEvaluation(@Param("graduateWorkId") String graduateWorkId, @Param("professorDNI") String professorDNI);
+
+    @Query(
+            value = "SELECT createCoordinatorEvaluation(:professorDNI,:graduateWorkId,:revisionNumber, :revisionResult, :coordinatorComments)",
+            nativeQuery = true
+    )
+
+    public Boolean createCoordinatorEvaluation(@Param("graduateWorkId") String graduateWorkId, @Param("professorDNI") String professorDNI, @Param("revisionNumber") Integer revisionNumber, @Param("revisionResult") String revisionResult, @Param("coordinatorComments") String coordinatorComments);
+
+    @Query(
+            value = "SELECT generateCoordinatorEvaluation(:professorDNI,:graduateWorkId, :revisionResult, :coordinatorComments)",
+            nativeQuery = true
+    )
+
+    public Boolean generateCoordinatorEvaluation(@Param("graduateWorkId") String graduateWorkId, @Param("professorDNI") String professorDNI, @Param("revisionResult") String revisionResult, @Param("coordinatorComments") String coordinatorComments);
+    @Query(
+            value = "SELECT verificarEstadoDePropuesta(:graduateWorkId)",
+            nativeQuery = true
+    )
+    public Boolean getCoordinatorEvaluationStatus(@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT aprobarRevisionCoordinador(:professorDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public Integer aprobarRevisionCoordinador(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT crearEvaluacionRevisor(:professorDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public Boolean createReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT asignarCriterioAEvaluacionRevisor(:professorDNI,:graduateWorkId,:reviewerCriteriaId)",
+            nativeQuery = true
+    )
+    public Boolean addCriteriaToReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId,@Param("reviewerCriteriaId") Integer reviewerCriteriaId);
+
+    @Query(
+            value = "SELECT Rec.reviewerCriteriaId, Rc.reviewerCriteriaDescription\n" +
+                    "FROM ReviewerEvaluationCriteria AS Rec, ReviewerCriteria AS Rc\n" +
+                    "WHERE Rec.graduateWorkId = :graduateWorkId\n" +
+                    "AND Rec.professorDNI = :professorDNI\n" +
+                    "AND Rec.reviewerCriteriaId = Rc.reviewerCriteriaId",
+            nativeQuery = true
+    )
+    public Iterable<GetReviewerEvaluationCriteriaProjection> getReviewerEvaluationCriteria(@Param("professorDNI") String professorDNI, @Param("graduateWorkId") String graduateWorkId);
+
+
+    /**************************Funciones para aprobar y
+     *                         reprobar evaluaciones de Profesor Revisor********************************/
+    @Query(
+            value = "SELECT approveReviewerEvaluation(:graduateWorkId,:professorDNI,:comments)",
+            nativeQuery = true
+    )
+    public Boolean approveReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId,@Param("comments") String comments);
+
+    @Query(
+            value = "SELECT reproveReviewerEvaluation(:graduateWorkId,:professorDNI,:comments)",
+            nativeQuery = true
+    )
+    public Boolean reproveReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId,@Param("comments") String comments);
+
+    @Query(
+            value = "SELECT approveReviewerEvaluationCriteria(:graduateWorkId,:professorDNI,:reviewerCriteriaId)",
+            nativeQuery = true
+    )
+    public Boolean approveReviewerEvaluationCriteria(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId,@Param("reviewerCriteriaId") Integer reviewerCriteriaId);
+
+    @Query(
+            value = "SELECT reproveReviewerEvaluationCriteria(:graduateWorkId,:professorDNI,:reviewerCriteriaId)",
+            nativeQuery = true
+    )
+    public Boolean reproveReviewerEvaluationCriteria(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId,@Param("reviewerCriteriaId") Integer reviewerCriteriaId);
+
+
+
+}

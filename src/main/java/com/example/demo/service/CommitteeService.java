@@ -16,4 +16,8 @@ public class CommitteeService {
     public Iterable<Committee> getAllCommittees(){
         return committeeRepository.findAll();
     }
+
+    public Committee createCommittee(Committee committee){
+        return committeeRepository.save(committee);
+    }
 }

@@ -23,12 +23,14 @@ public class Professor {
     @Column(name = "professoroffice")
     String professorOffice;
     @Column(name = "professorworkexperience")
-    String professorWorkExperience;
+    Integer professorWorkExperience;
     @Column(name = "professorgraduationyear")
     Date professorGraduationYear;
     @Column(name = "professoraddress")
     String professorAddress;
     @Column(name = "professorprofession")
     String professorProfession;
+    @Column(name = "professorrole")
+    String professorRole = "Regular";
 
 }
