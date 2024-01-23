@@ -20,5 +20,9 @@ public class ExternalPersonnelService {
         return externalPersonnelRepository.save(externalPersonnel);
     }
 
+    public Iterable<ExternalPersonnel> getExternalPersonnelByEnterpriseId (Integer enterpriseId){
+        return externalPersonnelRepository.getExternalPersonnelByEnterpriseId(enterpriseId);
+    }
+
 
 }

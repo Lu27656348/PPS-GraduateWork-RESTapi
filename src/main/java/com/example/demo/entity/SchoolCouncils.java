@@ -19,9 +19,13 @@ import java.util.Date;
 @AllArgsConstructor
 public class SchoolCouncils {
     @Id
-    private String schoolcouncil;
+    @Column(name = "schoolcouncilid")
+    private String schoolCouncilId;
 
     @Column(name = "schoolcouncildate")
     private Date schoolcouncildate;
+
+    @Column(name = "schoolcounciltype")
+    private String schoolSchoolType;
 
 }

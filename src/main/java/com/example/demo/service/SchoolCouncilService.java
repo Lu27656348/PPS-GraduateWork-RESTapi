@@ -15,4 +15,8 @@ public class SchoolCouncilService {
     public Iterable<SchoolCouncils> getAllSchoolCouncils(){
         return schoolCouncilRepository.findAll();
     }
+
+    public SchoolCouncils createSchoolCouncil(SchoolCouncils schoolCouncil){
+        return schoolCouncilRepository.save(schoolCouncil);
+    }
 }

@@ -7,5 +7,6 @@ import java.util.Date;
 @Data
 public class SetDefenseDateRequest {
     private Date graduateWorkDefenseDate;
+    private String graduateWorkDefenseLocation;
     private String graduateWorkId;
 }

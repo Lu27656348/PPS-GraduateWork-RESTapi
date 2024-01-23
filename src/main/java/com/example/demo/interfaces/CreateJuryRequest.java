@@ -6,5 +6,6 @@ import lombok.Data;
 public class CreateJuryRequest {
     private String graduateWorkId;
     private String professorDNI;
-    private Integer juryType;
+    private String schoolCouncilId;
+    private String juryType;
 }

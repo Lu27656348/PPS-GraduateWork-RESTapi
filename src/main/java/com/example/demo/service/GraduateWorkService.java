@@ -1,18 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.GraduateWork;
+import com.example.demo.entity.User;
 import com.example.demo.interfaces.*;
-import com.example.demo.interfaces.projections.GetGraduateWorkReviewerProjection;
-import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
-import com.example.demo.interfaces.requests.CreateApproveCoordinatorRequest;
-import com.example.demo.interfaces.requests.CreateCoordinatorRequest;
-import com.example.demo.interfaces.requests.GetReviewerEvaluationCriteria;
+import com.example.demo.interfaces.projections.*;
+import com.example.demo.interfaces.requests.*;
 import com.example.demo.repository.GraduateWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,6 +38,10 @@ public class GraduateWorkService{
 
     public GraduateWork getStudentProposal (String studentDNI){
         return graduateWorkRepository.getStudentProposal(studentDNI);
+    }
+
+    public Integer getReviewerCount (String graduateWorkId){
+        return graduateWorkRepository.getReviewerCount(graduateWorkId);
     }
 
     public GraduateWork updateGraduateWork (String id, GraduateWork newGraduateWork){
@@ -74,6 +77,10 @@ public class GraduateWorkService{
         return graduateWorkRepository.getProposals();
     }
 
+    public Iterable<GetGraduateWorkStudentData> getGraduateWorkStudentData(String graduateWorkId){
+        return graduateWorkRepository.getGraduateWorkStudentData(graduateWorkId);
+    }
+
     public GraduateWork changeStatus(ChangeEstatusRequest changeEstatusRequest){
         GraduateWork graduateWorkSearch = graduateWorkRepository.findById(changeEstatusRequest.getGraduateWorkId()).orElse(null);
         if( graduateWorkSearch != null ){
@@ -86,7 +93,10 @@ public class GraduateWorkService{
     public GraduateWork setDefenseDate(SetDefenseDateRequest setDefenseDateRequest){
         GraduateWork graduateWorkSearch = graduateWorkRepository.findById(setDefenseDateRequest.getGraduateWorkId()).orElse(null);
         if( graduateWorkSearch != null ){
+            System.out.println(setDefenseDateRequest.getGraduateWorkDefenseDate());
             graduateWorkSearch.setGraduateWorkDefenseDate(setDefenseDateRequest.getGraduateWorkDefenseDate());
+            graduateWorkSearch.setGraduateWorkDefenseLocation(setDefenseDateRequest.getGraduateWorkDefenseLocation());
+            System.out.println(graduateWorkSearch);
             return graduateWorkRepository.save(graduateWorkSearch);
         }
         return null;
@@ -150,8 +160,8 @@ public class GraduateWorkService{
         return graduateWorkRepository.getCulminationPending();
     }
 
-    public CreateJuryProjection createJury (String graduateWorkId, String professorDNI, Integer juryType){
-        return graduateWorkRepository.createJury(graduateWorkId, professorDNI,juryType);
+    public Boolean createJury (String professorDNI, String schoolCouncilId, String graduateWorkId, String juryType){
+        return graduateWorkRepository.createJury(professorDNI, schoolCouncilId,graduateWorkId, juryType);
     }
 
     public Iterable<ProposalInformationProjection> getDefensePending(){
@@ -210,5 +220,84 @@ public class GraduateWorkService{
         return graduateWorkRepository.reproveReviewerEvaluationCriteria(professorDNI,graduateWorkId,reviewerCriteriaId);
     }
 
+    public Boolean verifyAcademicTutorRevisionPending(String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.verifyAcademicTutorRevisionPending(professorDNI,graduateWorkId);
+    }
+
+    public Boolean addAcademicTutorEvaluation (String professorDNI, String graduateWorkId) {
+        return graduateWorkRepository.addAcademicTutorEvaluation(professorDNI,graduateWorkId);
+    }
+
+    public Integer getAcademicTutorGraduateWorksCount (String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.getAcademicTutorGraduateWorksCount(graduateWorkId,professorDNI);
+    }
+
+    public Boolean approveAcademicTutorRevision (String professorDNI, String graduateWorkId){
+        return graduateWorkRepository.approveAcademicTutorRevision(professorDNI,graduateWorkId);
+    }
+
+    public Integer getAcademicTutorRevisionCount (String graduateWorkId, String professorDNI){
+        return graduateWorkRepository.getAcademicTutorRevisionCount(graduateWorkId,professorDNI);
+    }
+
+    public Boolean getIsJuryPresent (String juryDNI, String graduateWorkId){
+        return graduateWorkRepository.getIsJuryPresent(juryDNI,graduateWorkId);
+    }
+
+    public Boolean designateJuryPresident (String juryDNI, String graduateWorkId){
+        return graduateWorkRepository.designateJuryPresident(juryDNI,graduateWorkId);
+    }
+
+    public Boolean setIsJuryPresent (String juryDNI, String graduateWorkId,Boolean isPresent){
+        return graduateWorkRepository.setIsJuryPresent(juryDNI,graduateWorkId,isPresent);
+    }
+
+    public List<JuryReportExperimentalCriteriaProjection> getJuryReportExperimentalCriteria(){
+        return graduateWorkRepository.getJuryReportExperimentalCriteria();
+    }
+
+    public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(){
+        return graduateWorkRepository.getJuryReportExperimentalCriteria();
+    }
+
+    public GetJuryDataProjection getJuryData(String juryDNI, String graduateWorkId){
+        return graduateWorkRepository.getJuryData(juryDNI,graduateWorkId);
+    }
+
+    public Boolean setJuryReportFinalNote(String juryDNI, String studentDNI, String graduateWorkId, Integer evaluationNote){
+        return graduateWorkRepository.setJuryReportFinalNote(juryDNI,studentDNI,graduateWorkId,evaluationNote);
+    }
+
+    public Boolean setJuryOralFinalNote(String juryDNI, String studentDNI, String graduateWorkId, Integer evaluationNote){
+        return graduateWorkRepository.setJuryOralFinalNote(juryDNI,studentDNI,graduateWorkId,evaluationNote);
+    }
+
+    public Boolean setTutorReportFinalNote(String juryDNI, String studentDNI, String graduateWorkId, Integer evaluationNote){
+        return graduateWorkRepository.setTutorReportFinalNote(juryDNI,studentDNI,graduateWorkId,evaluationNote);
+    }
+
+    public Boolean setTutorOralFinalNote(String juryDNI, String studentDNI, String graduateWorkId, Integer evaluationNote){
+        return graduateWorkRepository.setTutorOralFinalNote(juryDNI,studentDNI,graduateWorkId,evaluationNote);
+    }
+
+    public Boolean getHasTutorSubmittedFinalNote (String juryDNI, String graduateWorkId){
+        return graduateWorkRepository.getHasTutorSubmittedFinalNote(juryDNI,graduateWorkId);
+
+    }
+
+    public Boolean getHasJurySubmittedFinalNote (String juryDNI, String graduateWorkId){
+        return graduateWorkRepository.getHasJurySubmittedFinalNote(juryDNI,graduateWorkId);
+
+    }
+
+    public Boolean getHasJuryPresident (String graduateWorkId){
+        return graduateWorkRepository.getHasJuryPresident(graduateWorkId);
+
+    }
+
+    public Boolean getAllNotesValidation (String graduateWorkId){
+        return graduateWorkRepository.getAllNotesValidation(graduateWorkId);
+
+    }
 
 }

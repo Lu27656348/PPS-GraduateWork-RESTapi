@@ -24,6 +24,11 @@ public class ExternalPersonnelController {
         return externalPersonnelService.getAllExternalPersonnel();
     }
 
+    @GetMapping("enterprise/{id}")
+    public Iterable<ExternalPersonnel> getExternalPersonnelByEnterpriseId(@PathVariable Integer id){
+        return externalPersonnelService.getExternalPersonnelByEnterpriseId(id);
+    }
+
     @PostMapping
     public ResponseEntity<ExternalPersonnel> createExternalPersonnel(@RequestBody ExternalPersonnel externalPersonnel){
 

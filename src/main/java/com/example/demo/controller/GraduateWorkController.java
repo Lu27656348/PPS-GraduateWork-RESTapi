@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.GraduateWork;
+import com.example.demo.entity.User;
 import com.example.demo.interfaces.*;
 
-import com.example.demo.interfaces.projections.GetGraduateWorkReviewerProjection;
-import com.example.demo.interfaces.projections.GetReviewerEvaluationCriteriaProjection;
+import com.example.demo.interfaces.projections.*;
 import com.example.demo.interfaces.requests.*;
 import com.example.demo.service.GraduateWorkService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/graduate-work")
@@ -47,9 +49,15 @@ public class GraduateWorkController {
 
     @GetMapping("proposals")
     public Iterable<ProposalInformationProjection> getProposals(){
+
+
         return  graduateWorkService.getProposals();
     }
 
+    @GetMapping("student/data/{id}")
+    public ResponseEntity<Iterable<GetGraduateWorkStudentData>> getGraduateWorkStudentData(@PathVariable("id") String id){
+        return  ResponseEntity.ok(graduateWorkService.getGraduateWorkStudentData(id));
+    }
     @GetMapping("data/{id}")
     public GraduateWork getGraduateWorkById(@PathVariable("id") String id){
         return graduateWorkService.getGraduateWorkById(id);
@@ -113,11 +121,25 @@ public class GraduateWorkController {
         return graduateWorkService.getAcademicTutorGraduateWorks(professorRequest.getProfessorDNI());
     }
 
+    @PostMapping("/professor/tutor/graduatework/revision/count")
+    public ResponseEntity<Integer> getAcademicTutorGraduateWorksCount(@RequestBody VerifyAcademicTutorRevision verifyAcademicTutorRevision){
+        return ResponseEntity.ok(graduateWorkService.getAcademicTutorGraduateWorksCount(verifyAcademicTutorRevision.getGraduateWorkId(),verifyAcademicTutorRevision.getProfessorDNI()));
+    }
+
+    @PostMapping("/professor/tutor/graduatework/revision/approve")
+    public ResponseEntity<Boolean> approveAcademicTutorRevision(@RequestBody VerifyAcademicTutorRevision verifyAcademicTutorRevision){
+        return ResponseEntity.ok(graduateWorkService.approveAcademicTutorRevision(verifyAcademicTutorRevision.getProfessorDNI(),verifyAcademicTutorRevision.getGraduateWorkId()));
+    }
+
     @GetMapping("/students/{id}")
     public GraduateWorkStudentProjection getGraduateWorkStudents(@PathVariable String id){
         return graduateWorkService.getGraduateWorkStudents(id);
     }
 
+    @GetMapping("/reviewer/count/{id}")
+    public ResponseEntity<Integer> getReviewerCount(@PathVariable("id") String id){
+        return ResponseEntity.ok(graduateWorkService.getReviewerCount(id));
+    }
     @GetMapping("/remaining/days/{id}")
     public Integer getRemainingDays(@PathVariable String id){
         return graduateWorkService.getRemainingDays(id);
@@ -129,8 +151,9 @@ public class GraduateWorkController {
     }
 
     @PostMapping("create/jury")
-    public CreateJuryProjection createJury(@RequestBody CreateJuryRequest createJuryRequest){
-            return graduateWorkService.createJury(createJuryRequest.getGraduateWorkId(), createJuryRequest.getProfessorDNI(),createJuryRequest.getJuryType());
+    public ResponseEntity<Boolean> createJury(@RequestBody CreateJuryRequest createJuryRequest){
+        System.out.println(createJuryRequest);
+            return ResponseEntity.ok(graduateWorkService.createJury(createJuryRequest.getProfessorDNI(), createJuryRequest.getSchoolCouncilId(),createJuryRequest.getGraduateWorkId(),createJuryRequest.getJuryType()));
     }
 
     @GetMapping("defense/pending")
@@ -203,6 +226,97 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.reproveReviewerEvaluationCriteria(setReviewerEvaluationCriteria.getProfessorDNI(),setReviewerEvaluationCriteria.getGraduateWorkId(),setReviewerEvaluationCriteria.getReviewerCriteriaId()));
     }
 
+    @PostMapping("verify/tutor/revision/pending")
+    public  ResponseEntity<Boolean> verifyAcademicTutorRevisionPending (@RequestBody VerifyAcademicTutorRevision verifyAcademicTutorRevision){
+        System.out.println(verifyAcademicTutorRevision);
+        return ResponseEntity.ok(graduateWorkService.verifyAcademicTutorRevisionPending(verifyAcademicTutorRevision.getProfessorDNI(), verifyAcademicTutorRevision.getGraduateWorkId()));
+    }
+
+    @PostMapping("add/tutor/revision")
+    public  ResponseEntity<Boolean> addAcademicTutorEvaluation (@RequestBody VerifyAcademicTutorRevision verifyAcademicTutorRevision){
+        return ResponseEntity.ok(graduateWorkService.addAcademicTutorEvaluation(verifyAcademicTutorRevision.getProfessorDNI(), verifyAcademicTutorRevision.getGraduateWorkId()));
+    }
+
+    @PostMapping("/tutor/revision/count")
+    public  ResponseEntity<Integer> getAcademicTutorRevisionCount (@RequestBody VerifyAcademicTutorRevision verifyAcademicTutorRevision){
+        return ResponseEntity.ok(graduateWorkService.getAcademicTutorRevisionCount(verifyAcademicTutorRevision.getGraduateWorkId(), verifyAcademicTutorRevision.getProfessorDNI()));
+    }
+
+    @PostMapping("/juries/ispresent")
+    public  ResponseEntity<Boolean> getIsJuryPresent (@RequestBody GetJuryDataRequest getJuryDataRequest){
+        return ResponseEntity.ok(graduateWorkService.getIsJuryPresent(getJuryDataRequest.getJuryDNI(), getJuryDataRequest.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/designate/president")
+    public  ResponseEntity<Boolean> designateJuryPresident (@RequestBody GetJuryDataRequest getJuryDataRequest){
+        return ResponseEntity.ok(graduateWorkService.designateJuryPresident(getJuryDataRequest.getJuryDNI(), getJuryDataRequest.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/ispresent/set")
+    public  ResponseEntity<Boolean> setIsJuryPresent (@RequestBody GetJuryDataRequest getJuryDataRequest){
+        return ResponseEntity.ok(graduateWorkService.setIsJuryPresent(getJuryDataRequest.getJuryDNI(), getJuryDataRequest.getGraduateWorkId(),getJuryDataRequest.getIsPresent()));
+    }
+
+    @GetMapping("/juries/report/criteria/experimental")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryReportExperimentalCriteria (){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalCriteria());
+    }
+
+    @GetMapping("/juries/oral/criteria/experimental")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryOralExperimentalCriteria (){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalCriteria());
+    }
+
+    @PostMapping("/juries/data")
+    public ResponseEntity<GetJuryDataProjection> getJuryData (@RequestBody GetJuryDataRequest getJuryDataRequest){
+        return ResponseEntity.ok(graduateWorkService.getJuryData(getJuryDataRequest.getJuryDNI(),getJuryDataRequest.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/principal/set/report/note")
+    public ResponseEntity<Boolean> setJuryReportFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.setJuryReportFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getStudentDNI(),setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/principal/set/oral/note")
+    public ResponseEntity<Boolean> setJuryOralFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.setJuryOralFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getStudentDNI(),setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/set/oral/note")
+    public ResponseEntity<Boolean> setTutorReportFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.setTutorReportFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getStudentDNI(),setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/set/report/note")
+    public ResponseEntity<Boolean> setTutorOralFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.setTutorOralFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getStudentDNI(),setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/get/submmitted")
+    public ResponseEntity<Boolean> getHasTutorSubmittedFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getHasTutorSubmittedFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/get/submmitted")
+    public ResponseEntity<Boolean> getHasJurySubmittedFinalNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getHasJurySubmittedFinalNote(setJuryFinalNote.getJuryDNI(),setJuryFinalNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/validate/president")
+    public ResponseEntity<Boolean> getHasJuryPresident (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getHasJuryPresident(setJuryFinalNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/validate/all")
+    public ResponseEntity<Boolean> getAllNotesValidation (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getAllNotesValidation(setJuryFinalNote.getGraduateWorkId()));
+    }
 }
-
-

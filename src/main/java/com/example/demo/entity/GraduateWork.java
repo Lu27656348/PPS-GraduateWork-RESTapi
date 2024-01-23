@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -59,6 +60,9 @@ public class GraduateWork {
 
     @Column( name = "graduateworkdefensedate")
     private Date graduateWorkDefenseDate;
+
+    @Column( name = "graduateworkdefenselocation")
+    private String graduateWorkDefenseLocation;
 
 
 }
