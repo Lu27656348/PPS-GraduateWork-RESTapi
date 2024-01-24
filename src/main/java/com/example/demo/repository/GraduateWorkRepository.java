@@ -211,6 +211,13 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     )
 
     public Boolean generateCoordinatorEvaluation(@Param("graduateWorkId") String graduateWorkId, @Param("professorDNI") String professorDNI, @Param("revisionResult") String revisionResult, @Param("coordinatorComments") String coordinatorComments);
+
+    @Query(
+            value = "SELECT approvelastcoordinatorevaluation(:graduateWorkId)",
+            nativeQuery = true
+    )
+    public Boolean approveLastCoordinatorEvaluation(@Param("graduateWorkId") String graduateWorkId);
+
     @Query(
             value = "SELECT verificarEstadoDePropuesta(:graduateWorkId)",
             nativeQuery = true
@@ -348,6 +355,21 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria();
 
     @Query(
+            value = "SELECT *\n" +
+                    "FROM tutorOralEvaluationCriteria\n" +
+                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+            nativeQuery = true
+    )
+    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria();
+
+    @Query(
+            value = "SELECT *\n" +
+                    "FROM tutorReportEvaluationCriteria\n" +
+                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+            nativeQuery = true
+    )
+    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria();
+    @Query(
             value = "SELECT Ju.*\n" +
                     "FROM Juries Ju\n" +
                     "WHERE juryDNI = :juryDNI\n" +
@@ -401,5 +423,141 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             nativeQuery = true
     )
     public Boolean getAllNotesValidation(@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT obtainJuryOralEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getJuryOralNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT obtainJuryReportEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getJuryReportNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT obtainTutorOralEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getTutorOralNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT obtainTutorReportEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getTutorReportNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT obtainPresidentOralEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getPresidentOralNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT obtainPresidentReportEvaluationStudentNote(:graduateWorkId,:juryDNI)",
+            nativeQuery = true
+    )
+    public Integer getPresidentReportNote(@Param("graduateWorkId") String graduateWorkId,@Param("juryDNI") String juryDNI);
+
+    @Query(
+            value = "SELECT *\n" +
+                    "FROM Juries\n" +
+                    "WHERE graduateWorkId = :graduateWorkId",
+            nativeQuery = true
+    )
+    public List<GetJuryDataProjection> getGraduateWorkJuries(@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT addJuryOralEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean addJuryOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT addJuryReportEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean addJuryReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+
+    @Query(
+            value = "SELECT addTutorOralEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean addTutorOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT addTutorReportEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean addTutorReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT * FROM getTutorOralEvaluationSubmitted(:juryDNI,:studentDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public List<GetJuryEvaluationNoteProjection> getTutorOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId);
+    @Query(
+            value = "SELECT * FROM getTutorReportEvaluationSubmitted(:juryDNI,:studentDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public List<GetJuryEvaluationNoteProjection> getTutorReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId);
+    @Query(
+            value = "SELECT * FROM getJuryOralEvaluationSubmitted(:juryDNI,:studentDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public List<GetJuryEvaluationNoteProjection> getJuryOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId);
+    @Query(
+            value = "SELECT * FROM getJuryReportEvaluationSubmitted(:juryDNI,:studentDNI,:graduateWorkId)",
+            nativeQuery = true
+    )
+    public List<GetJuryEvaluationNoteProjection> getJuryReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId);
+
+    @Query(
+            value = "SELECT *\n" +
+                    "FROM Juries\n" +
+                    "WHERE graduateWorkId = :graduateWorkId\n" +
+                    "AND juryType = :juryType",
+            nativeQuery = true
+    )
+    public GetJuryDataProjection getGraduateWorkJuryByRol(@Param("graduateWorkId") String graduateWorkId, @Param("juryType") String juryType);
+
+    @Query(
+            value = "SELECT replaceCurrentJuryOralEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean changeJuryOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT replaceCurrentJuryReportEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean changeJuryReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+
+    @Query(
+            value = "SELECT replaceCurrentTutorOralEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean changeTutorOralEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT replaceCurrentTutorReportEvaluationNote(:juryDNI,:studentDNI,:graduateWorkId,:criteriaId,:evaluationNote)",
+            nativeQuery = true
+    )
+    public Boolean changeTutorReportEvaluationNote(@Param("juryDNI") String juryDNI,@Param("studentDNI") String studentDNI,@Param("graduateWorkId") String graduateWorkId,@Param("criteriaId") Integer criteriaId,@Param("evaluationNote") Integer evaluationNote);
+
+    @Query(
+            value = "SELECT cargarNotaFinal(:graduateWorkId,:finalNote, :mention)",
+            nativeQuery = true
+    )
+    public Boolean chargeFinalNote (@Param("graduateWorkId") String graduateWorkId,@Param("finalNote") Integer finalNote, @Param("mention") String mention);
+
+    @Query(
+            value = "SELECT validarTerminoProceso(:studentDNI)",
+            nativeQuery = true
+    )
+    public Boolean isCulminated (@Param("studentDNI") String studentDNI);
 
 }

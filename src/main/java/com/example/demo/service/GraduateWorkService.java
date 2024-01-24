@@ -184,6 +184,10 @@ public class GraduateWorkService{
         return graduateWorkRepository.generateCoordinatorEvaluation(createCoordinatorRequest.getGraduateWorkId(),createCoordinatorRequest.getProfessorDNI(),createCoordinatorRequest.getRevisionResult(),createCoordinatorRequest.getCoordinatorComments());
     }
 
+    public Boolean approveLastCoordinatorEvaluation(CreateCoordinatorRequest createCoordinatorRequest){
+        return graduateWorkRepository.approveLastCoordinatorEvaluation(createCoordinatorRequest.getGraduateWorkId());
+    }
+
     public Boolean getCoordinatorEvaluationStatus(String graduateWorkId){
         return graduateWorkRepository.getCoordinatorEvaluationStatus(graduateWorkId);
     }
@@ -257,7 +261,15 @@ public class GraduateWorkService{
     }
 
     public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(){
-        return graduateWorkRepository.getJuryReportExperimentalCriteria();
+        return graduateWorkRepository.getJuryOralExperimentalCriteria();
+    }
+
+    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria(){
+        return graduateWorkRepository.getTutorReportExperimentalCriteria();
+    }
+
+    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria(){
+        return graduateWorkRepository.getTutorOralExperimentalCriteria();
     }
 
     public GetJuryDataProjection getJuryData(String juryDNI, String graduateWorkId){
@@ -300,4 +312,81 @@ public class GraduateWorkService{
 
     }
 
+    public Integer getJuryOralNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getJuryOralNote(graduateWorkId,juryDNI);
+    }
+    public Integer getJuryReportNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getJuryReportNote(graduateWorkId,juryDNI);
+    }
+    public Integer getTutorOralNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getTutorOralNote(graduateWorkId,juryDNI);
+    }
+
+    public Integer getTutorReportNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getTutorReportNote(graduateWorkId,juryDNI);
+    }
+
+    public Integer getPresidentOralNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getPresidentOralNote(graduateWorkId,juryDNI);
+    }
+
+    public Integer getPresidentReportNote (String graduateWorkId,String juryDNI){
+        return graduateWorkRepository.getPresidentReportNote(graduateWorkId,juryDNI);
+    }
+
+    public List<GetJuryDataProjection> getGraduateWorkJuries (String graduateWorkId){
+        return graduateWorkRepository.getGraduateWorkJuries(graduateWorkId);
+    }
+
+    public Boolean addJuryOralEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.addJuryOralEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean addJuryReportEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.addJuryReportEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean addTutorOralEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.addTutorOralEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean addTutorReportEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.addTutorReportEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+
+    public List<GetJuryEvaluationNoteProjection> getTutorOralEvaluationNote (String juryDNI, String studentDNI, String graduateWorkId){
+        return graduateWorkRepository.getTutorOralEvaluationNote(juryDNI,studentDNI,graduateWorkId);
+    }
+    public List<GetJuryEvaluationNoteProjection> getTutorReportEvaluationNote (String juryDNI, String studentDNI, String graduateWorkId){
+        return graduateWorkRepository.getTutorReportEvaluationNote(juryDNI,studentDNI,graduateWorkId);
+    }
+    public List<GetJuryEvaluationNoteProjection> getJuryOralEvaluationNote (String juryDNI, String studentDNI, String graduateWorkId){
+        return graduateWorkRepository.getJuryOralEvaluationNote(juryDNI,studentDNI,graduateWorkId);
+    }
+    public List<GetJuryEvaluationNoteProjection> getJuryReportEvaluationNote (String juryDNI, String studentDNI, String graduateWorkId){
+        return graduateWorkRepository.getJuryReportEvaluationNote(juryDNI,studentDNI,graduateWorkId);
+    }
+
+    public GetJuryDataProjection getGraduateWorkJuryByRol (String graduateWorkId, String juryType){
+        return graduateWorkRepository.getGraduateWorkJuryByRol(graduateWorkId,juryType);
+    }
+
+    /******************/
+    public Boolean changeJuryOralEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.changeJuryOralEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean changeJuryReportEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.changeJuryReportEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean changeTutorOralEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.changeTutorOralEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+    public Boolean changeTutorReportEvaluationNote(String juryDNI, String studentDNI, String graduateWorkId,Integer criteriaId, Integer evaluationNote){
+        return graduateWorkRepository.changeTutorReportEvaluationNote(juryDNI,studentDNI,graduateWorkId,criteriaId,evaluationNote);
+    }
+
+    public Boolean chargeFinalNote(String graduateWorkId,Integer finalNote, String mention){
+        return graduateWorkRepository.chargeFinalNote(graduateWorkId,finalNote,mention);
+    }
+
+    public Boolean isCulminated(String studentDNI){
+        return graduateWorkRepository.isCulminated(studentDNI);
+    }
 }

@@ -176,6 +176,11 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.generateCoordinatorEvaluation(createCoordinatorRequest));
     }
 
+    @PostMapping("coordinator/proposal/evaluation/approve/last")
+    public ResponseEntity<Boolean> approveLastCoordinatorEvaluation(@RequestBody CreateCoordinatorRequest createCoordinatorRequest){
+        return ResponseEntity.ok(graduateWorkService.approveLastCoordinatorEvaluation(createCoordinatorRequest));
+    }
+
     @GetMapping("coordinator/proposal/evaluation/status/{id}")
     public ResponseEntity<Boolean> getCoordinatorEvaluationStatus(@PathVariable String id){
         return ResponseEntity.ok(graduateWorkService.getCoordinatorEvaluationStatus(id));
@@ -267,6 +272,16 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalCriteria());
     }
 
+    @GetMapping("/juries/tutor/report/criteria/experimental")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorReportExperimentalCriteria (){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportExperimentalCriteria());
+    }
+
+    @GetMapping("/juries/tutor/oral/criteria/experimental")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorOralExperimentalCriteria (){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralExperimentalCriteria());
+    }
+
     @PostMapping("/juries/data")
     public ResponseEntity<GetJuryDataProjection> getJuryData (@RequestBody GetJuryDataRequest getJuryDataRequest){
         return ResponseEntity.ok(graduateWorkService.getJuryData(getJuryDataRequest.getJuryDNI(),getJuryDataRequest.getGraduateWorkId()));
@@ -319,4 +334,121 @@ public class GraduateWorkController {
         System.out.println(setJuryFinalNote);
         return ResponseEntity.ok(graduateWorkService.getAllNotesValidation(setJuryFinalNote.getGraduateWorkId()));
     }
+
+    @PostMapping("/juries/jury/get/oral/note")
+    public ResponseEntity<Integer> getJuryOralNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getJuryOralNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/jury/get/report/note")
+    public ResponseEntity<Integer> getJuryReportNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getJuryReportNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/tutor/get/oral/note")
+    public ResponseEntity<Integer> getTutorOralNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getTutorOralNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/tutor/get/report/note")
+    public ResponseEntity<Integer> getTutorReportNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getTutorReportNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/president/get/oral/note")
+    public ResponseEntity<Integer> getPresidentOralNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getPresidentOralNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/president/get/report/note")
+    public ResponseEntity<Integer> getPresidentReportNote (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getPresidentReportNote(setJuryFinalNote.getGraduateWorkId(),setJuryFinalNote.getJuryDNI()));
+    }
+
+    @PostMapping("/juries/get")
+    public ResponseEntity<List<GetJuryDataProjection>> getGraduateWorkJuries (@RequestBody SetJuryFinalNote setJuryFinalNote){
+        System.out.println(setJuryFinalNote);
+        return ResponseEntity.ok(graduateWorkService.getGraduateWorkJuries(setJuryFinalNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/add/criteria/note/oral")
+    public ResponseEntity<Boolean> addJuryOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.addJuryOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/jury/add/criteria/note/report")
+    public ResponseEntity<Boolean> addJuryReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.addJuryReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/add/criteria/note/report")
+    public ResponseEntity<Boolean> addTutorReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.addTutorReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/add/criteria/note/oral")
+    public ResponseEntity<Boolean> addTutorOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.addTutorOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PostMapping("/juries/tutor/get/criteria/note/oral")
+    public ResponseEntity<List<GetJuryEvaluationNoteProjection>> getTutorOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/tutor/get/criteria/note/report")
+    public ResponseEntity<List<GetJuryEvaluationNoteProjection>> getTutorReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/get/criteria/note/oral")
+    public ResponseEntity<List<GetJuryEvaluationNoteProjection>> getJuryOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/get/criteria/note/report")
+    public ResponseEntity<List<GetJuryEvaluationNoteProjection>> getJuryReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(), addJuryEvaluationNote.getGraduateWorkId()));
+    }
+
+    @PostMapping("/juries/jury/get/data")
+    public ResponseEntity<GetJuryDataProjection> getGraduateWorkJuryByRol (@RequestBody GetJuryDataRequest getJuryDataRequest){
+        return ResponseEntity.ok(graduateWorkService.getGraduateWorkJuryByRol(getJuryDataRequest.getGraduateWorkId(),getJuryDataRequest.getJuryType()));
+    }
+
+    @PutMapping("/juries/tutor/get/criteria/note/oral")
+    public ResponseEntity<Boolean> changeTutorOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.changeTutorOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PutMapping("/juries/tutor/get/criteria/note/report")
+    public ResponseEntity<Boolean> changeTutorReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.changeTutorReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PutMapping("/juries/jury/get/criteria/note/oral")
+    public ResponseEntity<Boolean> changeJuryOralEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.changeJuryOralEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(),addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+
+    @PutMapping("/juries/jury/get/criteria/note/report")
+    public ResponseEntity<Boolean> changeJuryReportEvaluationNote (@RequestBody AddJuryEvaluationNote addJuryEvaluationNote){
+        return ResponseEntity.ok(graduateWorkService.changeJuryReportEvaluationNote(addJuryEvaluationNote.getJuryDNI(),addJuryEvaluationNote.getStudentDNI(), addJuryEvaluationNote.getGraduateWorkId(),addJuryEvaluationNote.getCriteriaId(),addJuryEvaluationNote.getEvaluationNote()));
+    }
+    @PostMapping("/final/note/charge")
+    public ResponseEntity<Boolean> chargeFinalNote (@RequestBody ChargeFinalNoteRequest chargeFinalNoteRequest){
+        return ResponseEntity.ok(graduateWorkService.chargeFinalNote( chargeFinalNoteRequest.getGraduateWorkId(),chargeFinalNoteRequest.getFinalNote(),chargeFinalNoteRequest.getMention()));
+    }
+
+    @GetMapping("/culminated/{id}")
+    public ResponseEntity<Boolean> isCulminated (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.isCulminated( id ));
+    }
+
 }
