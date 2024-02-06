@@ -18,6 +18,10 @@ public class SchoolCouncilController {
         return schoolCouncilService.getAllSchoolCouncils();
     }
 
+    @GetMapping("{id}")
+    public SchoolCouncils getSchoolCouncilById(@PathVariable String id){
+        return schoolCouncilService.getSchoolCouncilById(id);
+    }
     @PostMapping
     public SchoolCouncils createSchoolCouncil(@RequestBody SchoolCouncils schoolCouncil){
         return schoolCouncilService.createSchoolCouncil(schoolCouncil);

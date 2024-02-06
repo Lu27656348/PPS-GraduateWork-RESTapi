@@ -16,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Professor {
     @Id
+    @Column(name = "professordni")
     String professorDNI;
 
     @Column(name = "professorschoolname")

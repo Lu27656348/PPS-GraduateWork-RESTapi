@@ -16,6 +16,10 @@ public class SchoolCouncilService {
         return schoolCouncilRepository.findAll();
     }
 
+    public SchoolCouncils getSchoolCouncilById( String id ){
+        return schoolCouncilRepository.findById(id).orElse(null);
+    }
+
     public SchoolCouncils createSchoolCouncil(SchoolCouncils schoolCouncil){
         return schoolCouncilRepository.save(schoolCouncil);
     }

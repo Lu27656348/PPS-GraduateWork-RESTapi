@@ -48,4 +48,9 @@ public class ProfessorController {
     public Iterable<ProfessorResponseProjection> getProfessorsData(){
         return professorService.getProfessorsData();
     }
+
+    @GetMapping("data/all")
+    public Iterable<Professor> getProfessorsDataAll(){
+        return professorService.getAllProfessors();
+    }
 }
