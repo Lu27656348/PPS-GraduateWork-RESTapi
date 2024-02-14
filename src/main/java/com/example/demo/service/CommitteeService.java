@@ -20,4 +20,18 @@ public class CommitteeService {
     public Committee createCommittee(Committee committee){
         return committeeRepository.save(committee);
     }
+
+    public Committee updateCommittee(String id, Committee committee){
+        Committee search = committeeRepository.findById(id).orElse(null);
+        if( search != null ){
+            search.setCommitteeId(committee.getCommitteeId());
+            search.setCommitteeDate(committee.getCommitteeDate());
+            return committeeRepository.save(search);
+        }
+        return null;
+    }
+
+    public void deleteCommittee(String id){
+        committeeRepository.deleteById(id);
+    }
 }

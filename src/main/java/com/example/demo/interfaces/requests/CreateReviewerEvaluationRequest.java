@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateReviewerEvaluationRequest {
     private String graduateWorkId;
     private String professorDNI;
+    private String committeeId;
 }

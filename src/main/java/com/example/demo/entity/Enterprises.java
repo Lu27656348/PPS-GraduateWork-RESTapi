@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Enterprises {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer enterpriseid;
 
     @Column(name = "enterprisename")
@@ -24,4 +22,7 @@ public class Enterprises {
 
     @Column( name = "enterprisedescription")
     private String enterpriseDescription;
+
+    @Column( name = "enterpriseaddress")
+    private String enterpriseAddress;
 }

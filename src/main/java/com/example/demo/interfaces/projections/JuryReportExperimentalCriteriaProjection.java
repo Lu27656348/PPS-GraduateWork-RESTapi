@@ -6,4 +6,5 @@ public interface JuryReportExperimentalCriteriaProjection {
     String getCriteriaDescription();
     String getCriteriaModel();
     Integer getMaxNote();
+    Integer getSeccionId();
 }

@@ -24,6 +24,10 @@ public class ExternalPersonnelController {
         return externalPersonnelService.getAllExternalPersonnel();
     }
 
+    @GetMapping("/{id}")
+    public ExternalPersonnel getExternalPersonnelById(@PathVariable String id){
+        return externalPersonnelService.getExternalPersonnelById(id);
+    }
     @GetMapping("enterprise/{id}")
     public Iterable<ExternalPersonnel> getExternalPersonnelByEnterpriseId(@PathVariable Integer id){
         return externalPersonnelService.getExternalPersonnelByEnterpriseId(id);

@@ -52,6 +52,13 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             nativeQuery = true
     )
     Iterable<ProfessorResponseProjection> getInCompanyTutors();
+    @Query(
+            value = "SELECT *\n" +
+                    "FROM GraduateWork\n" +
+                    "WHERE graduateWorkStatusCode = :graduateWorkStatusCode",
+            nativeQuery = true
+    )
+    public Iterable<GraduateWork> getGraduateWorkByStatus(@Param("graduateWorkStatusCode") Integer graduateWorkStatusCode);
 
     @Query(
             value = "SELECT Gw.graduateworkid,Gw.graduateworktitle,St.statuscode,St.statuscodedescription\n" +
@@ -231,10 +238,10 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     public Integer aprobarRevisionCoordinador(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId);
 
     @Query(
-            value = "SELECT crearEvaluacionRevisor(:professorDNI,:graduateWorkId)",
+            value = "SELECT crearEvaluacionRevisor(:professorDNI,:graduateWorkId, :committeeId)",
             nativeQuery = true
     )
-    public Boolean createReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId);
+    public Boolean createReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId, @Param("committeeId") String committeeId);
 
     @Query(
             value = "SELECT Re.professorDNI\n" +
@@ -348,11 +355,26 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
 
     @Query(
             value = "SELECT *\n" +
+                    "FROM juryReportEvaluationSeccion\n" +
+                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+            nativeQuery = true
+    )
+    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion();
+    @Query(
+            value = "SELECT *\n" +
                     "FROM juryOralEvaluationCriteria\n" +
                     "WHERE criteriaModel = 'EXPERIMENTAL'",
             nativeQuery = true
     )
     public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria();
+
+    @Query(
+            value = "SELECT *\n" +
+                    "FROM juryOralEvaluationSeccion\n" +
+                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+            nativeQuery = true
+    )
+    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion();
 
     @Query(
             value = "SELECT *\n" +

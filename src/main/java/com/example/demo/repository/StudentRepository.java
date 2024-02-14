@@ -30,7 +30,7 @@ public interface StudentRepository extends CrudRepository<Student,String> {
     @Query(
             value = "SELECT Pr.*\n" +
                     "FROM Professors Pr, Students Stu\n" +
-                    "WHERE Pr.professorProfession = 'Coordinator'\n" +
+                    "WHERE Pr.professorRole = 'Coordinator'\n" +
                     "AND Pr.professorSchoolName = Stu.studentSchoolName\n" +
                     "AND Stu.studentdni = :studentDNI",
             nativeQuery = true

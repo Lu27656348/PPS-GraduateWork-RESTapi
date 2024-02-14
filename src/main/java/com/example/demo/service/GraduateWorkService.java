@@ -9,6 +9,7 @@ import com.example.demo.repository.GraduateWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,9 @@ public class GraduateWorkService{
         return this.graduateWorkRepository.findById(id).orElse(null);
     }
 
+    public Iterable<GraduateWork> getGraduateWorkByStatus (Integer id){
+        return  graduateWorkRepository.getGraduateWorkByStatus(id);
+    }
     public GraduateWork getStudentProposal (String studentDNI){
         return graduateWorkRepository.getStudentProposal(studentDNI);
     }
@@ -130,11 +134,12 @@ public class GraduateWorkService{
         return null;
     }
 
-    public GraduateWork setSchoolCouncil(String graduateWorkId, String graduateWorkSchoolCouncil){
+    public GraduateWork setSchoolCouncil(String graduateWorkId, String graduateWorkSchoolCouncil, String graduateWorkAcademicTutor){
         GraduateWork graduateWorkSearch = graduateWorkRepository.findById(graduateWorkId).orElse(null);
         if(graduateWorkSearch != null){
             graduateWorkSearch.setGraduateWorkSchoolCouncil(graduateWorkSchoolCouncil);
             graduateWorkSearch.setSchoolCouncilApprovalDate(new Date());
+            graduateWorkSearch.setGraduateWorkAcademicTutor(graduateWorkAcademicTutor);
             return graduateWorkRepository.save(graduateWorkSearch);
         }
         return null;
@@ -196,8 +201,8 @@ public class GraduateWorkService{
         return graduateWorkRepository.aprobarRevisionCoordinador(professorDNI,graduateWorkId);
     }
 
-    public Boolean createReviewerEvaluation(String professorDNI, String graduateWorkId){
-        return graduateWorkRepository.createReviewerEvaluation(professorDNI,graduateWorkId);
+    public Boolean createReviewerEvaluation(String professorDNI, String graduateWorkId,String committeeId){
+        return graduateWorkRepository.createReviewerEvaluation(professorDNI,graduateWorkId,committeeId);
     }
 
     public Boolean addCriteriaToReviewerEvaluation(String professorDNI, String graduateWorkId, Integer reviewerCriteriaId){
@@ -260,8 +265,16 @@ public class GraduateWorkService{
         return graduateWorkRepository.getJuryReportExperimentalCriteria();
     }
 
+    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion(){
+        return graduateWorkRepository.getJuryReportExperimentalSeccion();
+    }
+
     public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(){
         return graduateWorkRepository.getJuryOralExperimentalCriteria();
+    }
+
+    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion(){
+        return graduateWorkRepository.getJuryOralExperimentalSeccion();
     }
 
     public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria(){

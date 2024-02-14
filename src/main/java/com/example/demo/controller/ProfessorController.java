@@ -30,8 +30,6 @@ public class ProfessorController {
 
     @GetMapping("{id}")
     public Professor getProfessorById (@PathVariable String id){
-        System.out.println("getProfessorById");
-        System.out.println(id);
         return professorService.getProfessorById(id);
 
     }

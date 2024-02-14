@@ -10,4 +10,5 @@ import java.util.Date;
 public class SetSchoolCouncilRequest {
     private String graduateWorkSchoolCouncil;
     private String graduateWorkId;
+    private String graduateWorkAcademicTutor;
 }

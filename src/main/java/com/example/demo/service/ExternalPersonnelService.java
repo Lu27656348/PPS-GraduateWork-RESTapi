@@ -12,6 +12,10 @@ public class ExternalPersonnelService {
         this.externalPersonnelRepository = externalPersonnelRepository;
     }
 
+
+    public ExternalPersonnel getExternalPersonnelById(String id){
+        return externalPersonnelRepository.findById(id).orElse(null);
+    }
     public Iterable<ExternalPersonnel> getAllExternalPersonnel(){
         return externalPersonnelRepository.findAll();
     }

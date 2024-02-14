@@ -19,4 +19,23 @@ public class EnterpriseService {
     public Enterprises getEnterpriseById (Integer id){
         return enterpriseRepository.findById(id).orElse(null);
     }
+
+    public Enterprises createEnterprise(Enterprises enterprise){
+        return enterpriseRepository.save(enterprise);
+    }
+
+    public Enterprises updateEnterprise(Integer id, Enterprises enterprise){
+        Enterprises empresaSearch = enterpriseRepository.findById(id).orElse(null);
+        if(empresaSearch != null ){
+            empresaSearch.setEnterpriseAddress(enterprise.getEnterpriseAddress());
+            empresaSearch.setEnterpriseDescription(enterprise.getEnterpriseDescription());
+            empresaSearch.setEnterpriseName(enterprise.getEnterpriseName());
+            return enterpriseRepository.save(empresaSearch);
+        }
+        return null;
+    }
+
+    public void deleteEnterpriseById(Integer id){
+        enterpriseRepository.deleteById(id);
+    }
 }
