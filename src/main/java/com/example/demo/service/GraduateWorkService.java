@@ -261,28 +261,28 @@ public class GraduateWorkService{
         return graduateWorkRepository.setIsJuryPresent(juryDNI,graduateWorkId,isPresent);
     }
 
-    public List<JuryReportExperimentalCriteriaProjection> getJuryReportExperimentalCriteria(){
-        return graduateWorkRepository.getJuryReportExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getJuryReportExperimentalCriteria(String id){
+        return graduateWorkRepository.getJuryReportExperimentalCriteria(id);
     }
 
-    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion(){
-        return graduateWorkRepository.getJuryReportExperimentalSeccion();
+    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion(String id){
+        return graduateWorkRepository.getJuryReportExperimentalSeccion(id);
     }
 
-    public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(){
-        return graduateWorkRepository.getJuryOralExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(String id){
+        return graduateWorkRepository.getJuryOralExperimentalCriteria(id);
     }
 
-    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion(){
-        return graduateWorkRepository.getJuryOralExperimentalSeccion();
+    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion(String id){
+        return graduateWorkRepository.getJuryOralExperimentalSeccion(id);
     }
 
-    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria(){
-        return graduateWorkRepository.getTutorReportExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria(String id){
+        return graduateWorkRepository.getTutorReportExperimentalCriteria(id);
     }
 
-    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria(){
-        return graduateWorkRepository.getTutorOralExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria(String id){
+        return graduateWorkRepository.getTutorOralExperimentalCriteria(id);
     }
 
     public GetJuryDataProjection getJuryData(String juryDNI, String graduateWorkId){

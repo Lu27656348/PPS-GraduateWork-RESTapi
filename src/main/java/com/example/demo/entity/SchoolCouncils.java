@@ -28,4 +28,7 @@ public class SchoolCouncils {
     @Column(name = "schoolcounciltype")
     private String schoolSchoolType;
 
+    @Column(name = "schoolname")
+    private String schoolName;
+
 }

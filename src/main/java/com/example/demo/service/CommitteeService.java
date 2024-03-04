@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Committee;
 import com.example.demo.repository.CommitteeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class CommitteeService {
@@ -15,6 +16,10 @@ public class CommitteeService {
 
     public Iterable<Committee> getAllCommittees(){
         return committeeRepository.findAll();
+    }
+
+    public Iterable<Committee> getAllCommitteesBySchool( String schoolName) {
+        return committeeRepository.getAllCommitteesBySchool(schoolName);
     }
 
     public Committee createCommittee(Committee committee){

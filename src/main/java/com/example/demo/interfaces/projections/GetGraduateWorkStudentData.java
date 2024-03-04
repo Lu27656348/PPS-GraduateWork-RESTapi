@@ -8,4 +8,6 @@ public interface GetGraduateWorkStudentData {
     String getUserEmail();
 
     String getUserPhone();
+    String getSchoolName();
+
 }

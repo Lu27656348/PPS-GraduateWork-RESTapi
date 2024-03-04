@@ -23,4 +23,10 @@ public class Criteria {
 
     @Column(name = "reviewercriteriadescription")
     private String reviewerCriteriaDescription;
+
+    @Column(name = "schoolname")
+    private String schoolName;
+
+    @Column(name = "criteriamodel")
+    private String criteriaModel;
 }

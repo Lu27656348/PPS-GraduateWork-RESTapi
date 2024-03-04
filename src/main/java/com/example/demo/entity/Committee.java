@@ -26,4 +26,7 @@ public class Committee {
     @Column(name = "committeedate")
     private Date committeeDate;
 
+    @Column(name = "schoolname")
+    private String schoolName;
+
 }

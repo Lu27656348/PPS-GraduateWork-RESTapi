@@ -29,6 +29,9 @@ public class User {
     @Column(name = "userphone")
     private String userPhone;
 
+    @Column(name = "schoolname")
+    private String schoolName;
+
     public User(String userDNI, String userPassword, String userFirstName, String userLastName, String userEmailUcab) {
         this.userDNI = userDNI;
         this.userPassword = userPassword;

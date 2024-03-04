@@ -4,6 +4,8 @@ import com.example.demo.entity.SchoolCouncils;
 import com.example.demo.repository.SchoolCouncilRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SchoolCouncilService {
     private final SchoolCouncilRepository schoolCouncilRepository;
@@ -18,6 +20,10 @@ public class SchoolCouncilService {
 
     public SchoolCouncils getSchoolCouncilById( String id ){
         return schoolCouncilRepository.findById(id).orElse(null);
+    }
+
+    public List<SchoolCouncils> getSchoolCouncilBySchool (String schoolName ){
+        return schoolCouncilRepository.getSchoolCouncilBySchool(schoolName);
     }
 
     public SchoolCouncils createSchoolCouncil(SchoolCouncils schoolCouncil){

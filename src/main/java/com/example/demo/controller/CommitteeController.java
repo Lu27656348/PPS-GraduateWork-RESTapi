@@ -23,6 +23,10 @@ public class CommitteeController {
         return committeeService.getAllCommittees();
     }
 
+    @GetMapping("/by/school/{schoolname}")
+    public Iterable<Committee> getAllCommitteesBySchool(@PathVariable String schoolname) {
+        return committeeService.getAllCommitteesBySchool(schoolname);
+    }
     @PostMapping
     public Committee createCommittee(@RequestBody Committee committee){
         return committeeService.createCommittee(committee);

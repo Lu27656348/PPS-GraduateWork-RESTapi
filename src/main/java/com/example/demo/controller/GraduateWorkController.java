@@ -266,34 +266,34 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.setIsJuryPresent(getJuryDataRequest.getJuryDNI(), getJuryDataRequest.getGraduateWorkId(),getJuryDataRequest.getIsPresent()));
     }
 
-    @GetMapping("/juries/report/criteria/experimental")
-    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryReportExperimentalCriteria (){
-        return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalCriteria());
+    @GetMapping("/juries/report/criteria/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryReportExperimentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalCriteria(id));
     }
 
-    @GetMapping("/juries/report/seccion/experimental")
-    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryReportExperimentalSeccion (){
-        return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalSeccion());
+    @GetMapping("/juries/report/seccion/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryReportExperimentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalSeccion(id));
     }
 
-    @GetMapping("/juries/oral/criteria/experimental")
-    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryOralExperimentalCriteria (){
-        return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalCriteria());
+    @GetMapping("/juries/oral/criteria/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryOralExperimentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalCriteria(id));
     }
 
-    @GetMapping("/juries/oral/seccion/experimental")
-    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryOralExperimentalSeccion (){
-        return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalSeccion());
+    @GetMapping("/juries/oral/seccion/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryOralExperimentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralExperimentalSeccion(id));
     }
 
-    @GetMapping("/juries/tutor/report/criteria/experimental")
-    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorReportExperimentalCriteria (){
-        return ResponseEntity.ok(graduateWorkService.getTutorReportExperimentalCriteria());
+    @GetMapping("/juries/tutor/report/criteria/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorReportExperimentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportExperimentalCriteria(id));
     }
 
-    @GetMapping("/juries/tutor/oral/criteria/experimental")
-    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorOralExperimentalCriteria (){
-        return ResponseEntity.ok(graduateWorkService.getTutorOralExperimentalCriteria());
+    @GetMapping("/juries/tutor/oral/criteria/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorOralExperimentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralExperimentalCriteria(id));
     }
 
     @PostMapping("/juries/data")

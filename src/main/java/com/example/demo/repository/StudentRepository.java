@@ -54,4 +54,13 @@ public interface StudentRepository extends CrudRepository<Student,String> {
     )
     Iterable<UserProjection> listStudentsDataExceptSelected(@Param("studentDNI") String studentDNI);
 
+    @Query(
+            value = "SELECT U.*\n" +
+                    "FROM Users as U, Students as S\n" +
+                    "WHERE U.userDNI = S.studentDNI\n" +
+                    "AND U.schoolName = :schoolName",
+            nativeQuery = true
+    )
+
+    public List<UserProjection> getStudentBySchool(@Param("schoolName") String id );
 }

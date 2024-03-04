@@ -4,6 +4,8 @@ import com.example.demo.entity.Criteria;
 import com.example.demo.service.CriteriaService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/criteria")
 public class CriteriaController {
@@ -22,4 +24,16 @@ public class CriteriaController {
     public Criteria createCriteria(@RequestBody  Criteria criteria) {
         return criteriaService.createCriteria(criteria);
     }
+
+    @PutMapping
+    public Criteria updateCriteria(@RequestBody Criteria criteria) {
+        return criteriaService.updateCriteria(criteria);
+    }
+
+    @GetMapping("/escuela/{schoolname}/modelo/{criteriamodel}")
+    public List<Criteria> getCriteriaByModelAndSchool(@PathVariable String schoolname,@PathVariable String criteriamodel) {
+        return criteriaService.getCriteriaByModelAndSchool(schoolname,criteriamodel);
+    }
+
+
 }

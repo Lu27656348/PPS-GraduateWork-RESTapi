@@ -5,4 +5,6 @@ public interface JuryReportExperimentalSeccionProjection {
     String getSeccionName();
     String getCriteriaModel();
     Integer getMaxNote();
+
+    String getSchoolName();
 }

@@ -348,49 +348,55 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     @Query(
             value = "SELECT *\n" +
                     "FROM juryReportEvaluationCriteria\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalCriteriaProjection> getJuryReportExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getJuryReportExperimentalCriteria(@Param("schoolName") String schoolName);
 
     @Query(
             value = "SELECT *\n" +
                     "FROM juryReportEvaluationSeccion\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion();
+    public List<JuryReportExperimentalSeccionProjection> getJuryReportExperimentalSeccion(@Param("schoolName") String schoolName);
     @Query(
             value = "SELECT *\n" +
                     "FROM juryOralEvaluationCriteria\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getJuryOralExperimentalCriteria(@Param("schoolName") String schoolName);
 
     @Query(
             value = "SELECT *\n" +
                     "FROM juryOralEvaluationSeccion\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion();
+    public List<JuryReportExperimentalSeccionProjection> getJuryOralExperimentalSeccion(@Param("schoolName") String schoolName);
 
     @Query(
             value = "SELECT *\n" +
                     "FROM tutorOralEvaluationCriteria\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getTutorOralExperimentalCriteria(@Param("schoolName") String schoolName);
 
     @Query(
             value = "SELECT *\n" +
                     "FROM tutorReportEvaluationCriteria\n" +
-                    "WHERE criteriaModel = 'EXPERIMENTAL'",
+                    "WHERE criteriaModel = 'EXPERIMENTAL'\n" +
+                    "AND schoolName  = :schoolName",
             nativeQuery = true
     )
-    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria();
+    public List<JuryReportExperimentalCriteriaProjection> getTutorReportExperimentalCriteria(@Param("schoolName") String schoolName);
     @Query(
             value = "SELECT Ju.*\n" +
                     "FROM Juries Ju\n" +

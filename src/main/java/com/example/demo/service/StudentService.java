@@ -12,6 +12,7 @@ import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -63,5 +64,11 @@ public class StudentService {
 
     public Iterable<UserProjection> listStudentsDataExceptSelected(String studentDNI) {
         return studentRepository.listStudentsDataExceptSelected(studentDNI);
+    }
+
+    public List<UserProjection>  getStudentBySchool( String id){
+
+        return studentRepository.getStudentBySchool(id);
+
     }
 }

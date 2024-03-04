@@ -72,4 +72,11 @@ public class StudentController {
 
     }
 
+    @GetMapping("/by/school/{id}")
+    public List<UserProjection> getStudentBySchool(@PathVariable String id){
+
+        return studentService.getStudentBySchool(id);
+
+    }
+
 }

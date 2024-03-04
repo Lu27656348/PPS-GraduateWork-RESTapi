@@ -6,6 +6,8 @@ import com.example.demo.service.SchoolCouncilService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/councils")
 public class SchoolCouncilController {
@@ -23,6 +25,11 @@ public class SchoolCouncilController {
     @GetMapping("{id}")
     public SchoolCouncils getSchoolCouncilById(@PathVariable String id){
         return schoolCouncilService.getSchoolCouncilById(id);
+    }
+
+    @GetMapping("/school/{schoolName}")
+    public List<SchoolCouncils> getSchoolCouncilBySchool(@PathVariable String schoolName){
+        return schoolCouncilService.getSchoolCouncilBySchool(schoolName);
     }
     @PostMapping
     public SchoolCouncils createSchoolCouncil(@RequestBody SchoolCouncils schoolCouncil){
