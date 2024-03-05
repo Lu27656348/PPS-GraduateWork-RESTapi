@@ -8,6 +8,7 @@ import com.example.demo.interfaces.ProfessorProjection;
 import com.example.demo.interfaces.StudentGraduateWork;
 import com.example.demo.interfaces.StudentGraduateWorkProjection;
 import com.example.demo.interfaces.UserProjection;
+import com.example.demo.interfaces.projections.GetStudentGraduateWorkPending;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,9 +75,12 @@ public class StudentController {
 
     @GetMapping("/by/school/{id}")
     public List<UserProjection> getStudentBySchool(@PathVariable String id){
-
         return studentService.getStudentBySchool(id);
+    }
 
+    @GetMapping("/by/school/{id}/validate")
+    public List<GetStudentGraduateWorkPending> getStudentBySchoolAndValidate(@PathVariable String id){
+        return studentService.getStudentBySchoolAndValidate(id);
     }
 
 }

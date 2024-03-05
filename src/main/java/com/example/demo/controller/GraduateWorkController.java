@@ -266,6 +266,9 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.setIsJuryPresent(getJuryDataRequest.getJuryDNI(), getJuryDataRequest.getGraduateWorkId(),getJuryDataRequest.getIsPresent()));
     }
 
+
+
+
     @GetMapping("/juries/report/criteria/experimental/{id}")
     public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryReportExperimentalCriteria (@PathVariable String id){
         return ResponseEntity.ok(graduateWorkService.getJuryReportExperimentalCriteria(id));
@@ -290,11 +293,74 @@ public class GraduateWorkController {
     public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorReportExperimentalCriteria (@PathVariable String id){
         return ResponseEntity.ok(graduateWorkService.getTutorReportExperimentalCriteria(id));
     }
+    @GetMapping("/juries/tutor/report/seccion/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getTutorReportExperimentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportExperimentalSeccion(id));
+    }
 
     @GetMapping("/juries/tutor/oral/criteria/experimental/{id}")
     public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorOralExperimentalCriteria (@PathVariable String id){
         return ResponseEntity.ok(graduateWorkService.getTutorOralExperimentalCriteria(id));
     }
+    @GetMapping("/juries/tutor/oral/seccion/experimental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getTutorOralExperimentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralExperimentalSeccion(id));
+    }
+
+
+
+
+
+
+    @GetMapping("/juries/report/criteria/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryReportInstrumentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportInstrumentalCriteria(id));
+    }
+
+    @GetMapping("/juries/report/seccion/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryReportInstrumentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryReportInstrumentalSeccion(id));
+    }
+
+    @GetMapping("/juries/oral/criteria/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getJuryOralInstrumentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralInstrumentalCriteria(id));
+    }
+
+    @GetMapping("/juries/oral/seccion/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getJuryOralInstrumentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getJuryOralInstrumentalSeccion(id));
+    }
+
+    @GetMapping("/juries/tutor/report/criteria/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorReportInstrumentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportInstrumentalCriteria(id));
+    }
+    @GetMapping("/juries/tutor/report/seccion/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getTutorReportInstrumentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorReportInstrumentalSeccion(id));
+    }
+
+    @GetMapping("/juries/tutor/oral/criteria/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalCriteriaProjection>> getTutorOralInstrumentalCriteria (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralInstrumentalCriteria(id));
+    }
+    @GetMapping("/juries/tutor/oral/seccion/instrumental/{id}")
+    public ResponseEntity<List<JuryReportExperimentalSeccionProjection>> getTutorOralInstrumentalSeccion (@PathVariable String id){
+        return ResponseEntity.ok(graduateWorkService.getTutorOralInstrumentalSeccion(id));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping("/juries/data")
     public ResponseEntity<GetJuryDataProjection> getJuryData (@RequestBody GetJuryDataRequest getJuryDataRequest){

@@ -7,4 +7,5 @@ public interface UserProjection {
     String getUserEmail();
     String getUserPhone();
     String getUserEmailAlt();
+
 }

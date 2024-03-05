@@ -8,6 +8,7 @@ import com.example.demo.interfaces.ProfessorProjection;
 import com.example.demo.interfaces.StudentGraduateWork;
 import com.example.demo.interfaces.StudentGraduateWorkProjection;
 import com.example.demo.interfaces.UserProjection;
+import com.example.demo.interfaces.projections.GetStudentGraduateWorkPending;
 import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -70,5 +71,9 @@ public class StudentService {
 
         return studentRepository.getStudentBySchool(id);
 
+    }
+
+    public List<GetStudentGraduateWorkPending> getStudentBySchoolAndValidate(String id){
+        return studentRepository.getStudentBySchoolAndValidate(id);
     }
 }

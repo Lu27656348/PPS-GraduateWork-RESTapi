@@ -8,6 +8,7 @@ import com.example.demo.interfaces.ProfessorProjection;
 import com.example.demo.interfaces.StudentGraduateWork;
 import com.example.demo.interfaces.StudentGraduateWorkProjection;
 import com.example.demo.interfaces.UserProjection;
+import com.example.demo.interfaces.projections.GetStudentGraduateWorkPending;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -63,4 +64,29 @@ public interface StudentRepository extends CrudRepository<Student,String> {
     )
 
     public List<UserProjection> getStudentBySchool(@Param("schoolName") String id );
+
+
+    @Query(
+            value = "SELECT TableSt.*\n" +
+                    "FROM (\n" +
+                    "\tSELECT Est.studentDNI\n" +
+                    "\tFROM students AS Est\n" +
+                    "\tLEFT JOIN student_graduatework ON Est.studentDNI = student_graduatework.studentDNI\n" +
+                    "\tWHERE student_graduatework.studentDNI IS NULL\n" +
+                    "\n" +
+                    "\tUNION\n" +
+                    "\t\n" +
+                    "\tSELECT Est.studentDNI\n" +
+                    "\tFROM students AS Est,Users\n" +
+                    "\tWHERE (SELECT COUNT(Gw.*) FROM GraduateWork AS Gw, student_graduatework AS Sgw WHERE Sgw.studentDNI = Est.studentDNI AND Gw.graduateWorkId = Sgw.graduateWorkId AND Gw.graduateworkstatuscode NOT IN (400,100,401)) = 0\n" +
+                    "\tAND (SELECT COUNT(Gw.*) FROM GraduateWork AS Gw, student_graduatework AS Sgw WHERE Sgw.studentDNI = Est.studentDNI AND Gw.graduateWorkId = Sgw.graduateWorkId AND Gw.graduateworkstatuscode IN (100)) < 1\n" +
+                    "   \n" +
+                    ") AS TableSt, Users\n" +
+                    "WHERE Users.userDNI = TableSt.studentDNI\n" +
+                    "AND Users.schoolName = :schoolName\n" +
+                    "GROUP BY studentDNI",
+            nativeQuery = true
+    )
+
+    public List<GetStudentGraduateWorkPending> getStudentBySchoolAndValidate(@Param("schoolName") String id );
 }
