@@ -310,10 +310,10 @@ public class GraduateWorkService{
         return graduateWorkRepository.getTutorReportInstrumentalSeccion(id);
     }
     public List<JuryReportExperimentalCriteriaProjection> getTutorOralInstrumentalCriteria(String id){
-        return graduateWorkRepository.getTutorOralExperimentalCriteria(id);
+        return graduateWorkRepository.getTutorOralInstrumentalCriteria(id);
     }
     public List<JuryReportExperimentalSeccionProjection> getTutorOralInstrumentalSeccion(String id){
-        return graduateWorkRepository.getTutorOralExperimentalSeccion(id);
+        return graduateWorkRepository.getTutorOralInstrumentalSeccion(id);
     }
 
 
