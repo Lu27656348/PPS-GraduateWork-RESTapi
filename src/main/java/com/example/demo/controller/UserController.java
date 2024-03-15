@@ -6,6 +6,7 @@ import com.example.demo.auth.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +20,13 @@ public class UserController {
     }
 
     @PostMapping("create")
-    public User createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user){
         return userService.createUser(user);
+    }
+
+    @PutMapping("put")
+    public ResponseEntity<User> updateUser(@RequestBody User user){
+        return userService.updateUser(user);
     }
 
     @GetMapping
@@ -57,7 +63,7 @@ public class UserController {
         return userService.validateUserAndPassword(loginRequest.getUserDNI(),loginRequest.getPassword());
     }
     @PostMapping("registration")
-    public User registerUser(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<User> registerUser(@RequestBody RegisterRequest registerRequest){
         User newUser = new User(registerRequest.getUserDNI(),registerRequest.getPassword(),registerRequest.getUserfirstname(),registerRequest.getUserlastname(),registerRequest.getUseremailucab());
         return userService.createUser(newUser);
     }

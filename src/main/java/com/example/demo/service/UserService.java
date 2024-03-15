@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +19,25 @@ public class UserService {
     }
 
     @Transactional
-    public User createUser (User user){
-        return userRepository.save(user);
+    public ResponseEntity<User> createUser (User user){
+        User userSearch = userRepository.findById(user.getUserDNI()).orElse(null);
+        if(userSearch == null){
+            return ResponseEntity.ok(userRepository.save(user));
+        }
+        return (ResponseEntity<User>) ResponseEntity.badRequest();
+    }
+
+    @Transactional
+    public ResponseEntity<User> updateUser (User user){
+        User userSearch = userRepository.findById(user.getUserDNI()).orElse(null);
+        if(userSearch != null){
+            userSearch.setUserEmail(user.getUserEmail());
+            userSearch.setUserFirstName(user.getUserFirstName());
+            userSearch.setUserLastName(user.getUserLastName());
+            userSearch.setUserPhone(user.getUserPhone());
+            return ResponseEntity.ok(userRepository.save(userSearch));
+        }
+        return (ResponseEntity<User>) ResponseEntity.badRequest();
     }
 
     public Iterable<User> getAllUsers(){
