@@ -157,7 +157,7 @@ public class GraduateWorkController {
     @PostMapping("create/jury")
     public ResponseEntity<Boolean> createJury(@RequestBody CreateJuryRequest createJuryRequest){
         System.out.println(createJuryRequest);
-            return ResponseEntity.ok(graduateWorkService.createJury(createJuryRequest.getProfessorDNI(), createJuryRequest.getSchoolCouncilId(),createJuryRequest.getGraduateWorkId(),createJuryRequest.getJuryType()));
+            return ResponseEntity.ok(graduateWorkService.createJury(createJuryRequest.getProfessorDNI(), createJuryRequest.getSchoolCouncilId(),createJuryRequest.getGraduateWorkId(),createJuryRequest.getJuryType(),createJuryRequest.getReemplazo()));
     }
 
     @GetMapping("defense/pending")
@@ -531,4 +531,8 @@ public class GraduateWorkController {
         return ResponseEntity.ok(graduateWorkService.isCulminated( id ));
     }
 
+    @GetMapping("/generar/reporte/propuestas/{schoolName}")
+    public ResponseEntity<List<GenerarReportePropuestaProjection>> generarReportePropuestas(@PathVariable String schoolName){
+        return ResponseEntity.ok(graduateWorkService.generarReportePropuestas(schoolName));
+    }
 }

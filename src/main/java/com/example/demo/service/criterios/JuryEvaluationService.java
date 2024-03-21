@@ -9,6 +9,7 @@ import com.example.demo.repository.criterios.JuryOralEvaluationSeccionRepository
 import com.example.demo.repository.criterios.JuryReportEvaluationCriteriaRepository;
 import com.example.demo.repository.criterios.JuryReportEvaluationSeccionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -113,4 +114,5 @@ public class JuryEvaluationService {
     public List<JuryReportEvaluationCriteria> getJuryReportCriteriaBySeccion (Integer id){
         return juryReportEvaluationCriteriaRepository.getCriteriaBySeccion(id);
     }
+
 }

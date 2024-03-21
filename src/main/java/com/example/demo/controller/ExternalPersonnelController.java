@@ -39,4 +39,11 @@ public class ExternalPersonnelController {
         return ResponseEntity.ok(externalPersonnelService.createExternalPersonnel(externalPersonnel));
 
     }
+
+    @PutMapping
+    public ResponseEntity<ExternalPersonnel> updateExternalPersonnel(@RequestBody ExternalPersonnel externalPersonnel){
+
+        return ResponseEntity.ok(externalPersonnelService.updateExternalPersonnel(externalPersonnel));
+
+    }
 }

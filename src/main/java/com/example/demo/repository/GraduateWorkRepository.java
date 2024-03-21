@@ -70,7 +70,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     Iterable<ProposalInformationProjection> getProposals();
 
     @Query(
-            value = "SELECT Us.*\n" +
+            value = "SELECT Us.*, Sgw.graduateWorkId\n" +
                     "FROM Students Est, Student_GraduateWork Sgw, Users Us\n" +
                     "WHERE Sgw.graduateWorkId = :graduateWorkId\n" +
                     "AND Sgw.studentDNI =  Est.studentDNI\n" +
@@ -119,7 +119,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     Iterable<ProposalInformationProjection> getDefensePending();
 
     @Query(
-            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle\n" +
+            value = "SELECT Gw.graduateWorkId, Gw.graduateWorkTitle, Gw.graduateWorkEnterprise,Gw.graduateWorkType, Gw.graduateWorkAcademicTutor,Gw.graduateWorkInCompanyTutor,Gw.graduateWorkCommittee,Gw.committeeApprovalDate \n" +
                     "FROM GraduateWork Gw\n" +
                     "WHERE Gw.graduateworkstatuscode NOT IN (400,401)\n" +
                     "AND Gw.graduateworkstatuscode = 40",
@@ -186,10 +186,10 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     )
     public Iterable<ProposalInformationProjection> getFinalEvaluationPending(@Param("professorDNI") String professorDNI);
     @Query(
-            value = "SELECT asignarJurado(:professorDNI, :schoolCouncilId, :graduateWorkId, :juryType)",
+            value = "SELECT asignarJurado(:professorDNI, :schoolCouncilId, :graduateWorkId, :juryType,:reemplazo)",
             nativeQuery = true
     )
-    public Boolean createJury(@Param("professorDNI") String professorDNI, @Param("schoolCouncilId") String schoolCouncilId,@Param("graduateWorkId") String graduateWorkId, @Param("juryType") String juryType);
+    public Boolean createJury(@Param("professorDNI") String professorDNI, @Param("schoolCouncilId") String schoolCouncilId,@Param("graduateWorkId") String graduateWorkId, @Param("juryType") String juryType,@Param("reemplazo") String reemplazo);
 
     @Query(
             value = "SELECT setDefenseNote(:graduateWorkId,:professorDNI,:note)",
@@ -244,7 +244,7 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
     public Boolean createReviewerEvaluation(@Param("professorDNI") String professorDNI,@Param("graduateWorkId") String graduateWorkId, @Param("committeeId") String committeeId);
 
     @Query(
-            value = "SELECT Re.professorDNI\n" +
+            value = "SELECT Re.professorDNI,Re.graduateWorkId,Re.revisionDate \n" +
                     "FROM ReviewerEvaluation AS Re\n" +
                     "WHERE graduateWorkId = :graduateWorkId",
             nativeQuery = true
@@ -690,5 +690,41 @@ public interface GraduateWorkRepository extends CrudRepository<GraduateWork,Stri
             nativeQuery = true
     )
     public Boolean isCulminated (@Param("studentDNI") String studentDNI);
+
+    @Query(
+            value = "SELECT\n" +
+                    "  U.userDNI,\n" +
+                    "  U.userLastName,\n" +
+                    "  U.userFirstName,\n" +
+                    "  U.userEMail,\n" +
+                    "  U.userPhone,\n" +
+                    "  Gw.graduateWorkTitle,\n" +
+                    "  Gw.graduateWorkType,\n" +
+                    "  E.enterpriseName,\n" +
+                    "  Gw.graduateWorkAcademicTutor,\n" +
+                    "  Gw.graduateWorkInCompanyTutor,\n" +
+                    "  Re.professorDNI,\n" +
+                    "  Re.graduateWorkId,\n" +
+                    "  Re.revisionDate,\n" +
+                    "  Gw.GraduateWorkSchoolCouncil,\n" +
+                    "  Gw.SchoolCouncilApprovalDate\n" +
+                    "FROM\n" +
+                    "  Users U,\n" +
+                    "  Students S,\n" +
+                    "  GraduateWork Gw,\n" +
+                    "  Enterprises E,\n" +
+                    "  reviewerEvaluation Re,\n" +
+                    "  Student_graduateWork Stg\n" +
+                    "WHERE\n" +
+                    "  Stg.studentDNI = S.studentDNI\n" +
+                    "AND S.studentDNI = U.userDNI\n" +
+                    "AND  Stg.graduateWorkID = Gw.graduateWorkId\n" +
+                    "AND  Gw.graduateWorkEnterprise = E.enterpriseId\n" +
+                    "AND  Re.graduateWorkID = Gw.graduateWorkId\n" +
+                    "AND U.schoolName = :schoolName\n" +
+                    "AND Gw.graduateWorkStatusCode = 50;\n",
+            nativeQuery = true
+    )
+    public List<GenerarReportePropuestaProjection> generarReportePropuestas(@Param("schoolName") String schoolName);
 
 }

@@ -13,4 +13,14 @@ public interface ProposalInformationProjection {
     String getStatusCode();
 
     String getStatusCodeDescription();
+    Integer getGraduateWorkEnterprise();
+
+    String getGraduateWorkType();
+
+    String getGraduateWorkAcademicTutor();
+
+    String getGraduateWorkinCompanyTutor();
+
+    String getGraduateWorkCommittee();
+    String getCommitteeApprovalDate();
 }

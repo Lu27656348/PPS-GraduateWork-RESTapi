@@ -165,8 +165,8 @@ public class GraduateWorkService{
         return graduateWorkRepository.getCulminationPending();
     }
 
-    public Boolean createJury (String professorDNI, String schoolCouncilId, String graduateWorkId, String juryType){
-        return graduateWorkRepository.createJury(professorDNI, schoolCouncilId,graduateWorkId, juryType);
+    public Boolean createJury (String professorDNI, String schoolCouncilId, String graduateWorkId, String juryType, String reemplazo){
+        return graduateWorkRepository.createJury(professorDNI, schoolCouncilId,graduateWorkId, juryType,reemplazo);
     }
 
     public Iterable<ProposalInformationProjection> getDefensePending(){
@@ -446,5 +446,9 @@ public class GraduateWorkService{
 
     public Boolean isCulminated(String studentDNI){
         return graduateWorkRepository.isCulminated(studentDNI);
+    }
+
+    public List<GenerarReportePropuestaProjection> generarReportePropuestas (String schoolName){
+        return graduateWorkRepository.generarReportePropuestas(schoolName);
     }
 }

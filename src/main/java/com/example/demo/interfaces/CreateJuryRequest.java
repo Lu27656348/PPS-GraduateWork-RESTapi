@@ -8,4 +8,5 @@ public class CreateJuryRequest {
     private String professorDNI;
     private String schoolCouncilId;
     private String juryType;
+    private String reemplazo;
 }

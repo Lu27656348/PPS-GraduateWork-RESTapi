@@ -10,4 +10,6 @@ public interface GetGraduateWorkStudentData {
     String getUserPhone();
     String getSchoolName();
 
+    String getGraduateWorkId();
+
 }

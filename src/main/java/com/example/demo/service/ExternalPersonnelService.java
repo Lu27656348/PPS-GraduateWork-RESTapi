@@ -28,5 +28,31 @@ public class ExternalPersonnelService {
         return externalPersonnelRepository.getExternalPersonnelByEnterpriseId(enterpriseId);
     }
 
+    public ExternalPersonnel updateExternalPersonnel(ExternalPersonnel externalPersonnel){
+        ExternalPersonnel externalSearch = externalPersonnelRepository.findById(externalPersonnel.getExternalPersonnelDNI()).orElse(null);
+        if(externalSearch != null) {
+            externalSearch.setExternalPersonnelProfession(
+                    externalPersonnel.getExternalPersonnelProfession()
+            );
+            externalSearch.setExternalPersonnelAddress(
+                    externalPersonnel.getExternalPersonnelAddress()
+            );
+            externalSearch.setExternalPersonnelEnterpriseId(
+                    externalPersonnel.getExternalPersonnelEnterpriseId()
+            );
+            externalSearch.setExternalPersonnelOffice(
+                    externalPersonnel.getExternalPersonnelOffice()
+            );
+            externalSearch.setExternalPersonnelWorkExperience(
+                    externalPersonnel.getExternalPersonnelWorkExperience()
+            );
+            externalSearch.setExternalPersonnelGraduationYear(
+                    externalPersonnel.getExternalPersonnelGraduationYear()
+            );
 
+            return externalPersonnelRepository.save(externalSearch);
+
+        }
+        return null;
+    }
 }

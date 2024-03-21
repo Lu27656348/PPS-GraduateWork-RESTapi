@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,8 @@ public class UserService {
         if(userSearch == null){
             return ResponseEntity.ok(userRepository.save(user));
         }
-        return (ResponseEntity<User>) ResponseEntity.badRequest();
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new User());
     }
 
     @Transactional
